@@ -1,0 +1,6 @@
+baseURL = 'http://localhost:8080/'
+languageCode = 'id'
+title = 'INDRAMAYU CLUB'
+
+[params]
+    author = 'Nur Makrifat'
