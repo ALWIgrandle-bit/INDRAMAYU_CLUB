@@ -1,4 +1,7 @@
 nohup: ignoring input
+ * Tip: There are .env files present. Install python-dotenv to use them.
+[SISTEM] Sinkronisasi database dari Google Drive sedang berjalan...
+[SISTEM] Sinkronisasi sukses!
  * Serving Flask app 'perbaiki_flask'
  * Debug mode: on
 [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
@@ -7,5 +10,6 @@ nohup: ignoring input
  * Running on http://10.95.183.137:8891
 [33mPress CTRL+C to quit[0m
  * Restarting with stat
+ * Tip: There are .env files present. Install python-dotenv to use them.
  * Debugger is active!
- * Debugger PIN: 672-850-385
+ * Debugger PIN: 966-289-387
