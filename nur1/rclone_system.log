@@ -1,0 +1,61 @@
+[2026-07-11 02:56:48] Memulai Sinkronisasi Backend Keuangan...
+2026/07/11 02:56:49 CRITICAL: Failed to create file system for "drive_nur3:03_ADM_KEUANGAN": didn't find section in config file ("drive_nur3")
+[2026-07-11 02:56:49] Sinkronisasi Selesai Mandali!
+[2026-07-11 03:00:43] Memulai Sinkronisasi Backend Keuangan...
+2026/07/11 03:00:43 NOTICE: drive3: This remote uses rclone's shared Google Drive client_id, which is being retired and will stop working during 2026. Create your own client_id to avoid interruption: https://rclone.org/drive/#making-your-own-client-id
+2026/07/11 03:00:45 INFO  : nur1: Set directory modification time (using SetModTime)
+2026/07/11 03:00:45 INFO  : KALKULATOR.html: Copied (new)
+2026/07/11 03:00:45 INFO  : .gitignore: Copied (new)
+2026/07/11 03:00:45 INFO  : DASHBOARD.html: Copied (new)
+2026/07/11 03:00:45 INFO  : Database Indramayu Club.xlsx: Copied (new)
+2026/07/11 03:00:47 INFO  : audit_flask.log: Copied (new)
+2026/07/11 03:00:47 INFO  : index.html: Copied (new)
+2026/07/11 03:00:47 INFO  : Live_vvip.html: Copied (new)
+2026/07/11 03:00:47 INFO  : komentar.html: Copied (new)
+2026/07/11 03:00:48 INFO  : package.json: Copied (new)
+2026/07/11 03:00:48 INFO  : live_member.html: Copied (new)
+2026/07/11 03:00:48 INFO  : nur7.html: Copied (new)
+2026/07/11 03:00:48 INFO  : perbaiki_flask.py: Copied (new)
+2026/07/11 03:00:49 INFO  : properti.html: Copied (new)
+2026/07/11 03:00:49 INFO  : nur1/rclone_push.sh: Copied (new)
+2026/07/11 03:00:49 INFO  : nur1/Catatan_NUR3.docx: Copied (new)
+2026/07/11 03:00:49 ERROR : nur1/rclone_system.log: corrupted on transfer: md5 hashes differ src(Local file system at /home/u0_a421/nama_env_anda/local_c4/03_ADM_KEUANGAN) "dd57502e6d275153adbff3c9519f810b" vs dst(Google drive root '03_ADM_KEUANGAN') "291f6b9a91077ad292f767e69a53d9de"
+2026/07/11 03:00:49 INFO  : nur1/rclone_system.log: Removing failed copy
+2026/07/11 03:00:50 ERROR : Google drive root '03_ADM_KEUANGAN': not deleting files as there were IO errors
+2026/07/11 03:00:50 INFO  : nur1: Set directory modification time (using SetModTime)
+2026/07/11 03:00:50 ERROR : Google drive root '03_ADM_KEUANGAN': not deleting directories as there were IO errors
+2026/07/11 03:00:50 ERROR : Attempt 1/3 failed with 1 errors and: corrupted on transfer: md5 hashes differ src(Local file system at /home/u0_a421/nama_env_anda/local_c4/03_ADM_KEUANGAN) "dd57502e6d275153adbff3c9519f810b" vs dst(Google drive root '03_ADM_KEUANGAN') "291f6b9a91077ad292f767e69a53d9de"
+2026/07/11 03:00:52 INFO  : nur1/rclone_system.log: Copied (new)
+2026/07/11 03:00:52 INFO  : nur1/DASHBOARD.html: Deleted
+2026/07/11 03:00:53 INFO  : nur1/master_administrasi_keuangan.xlsx: Deleted
+2026/07/11 03:00:53 INFO  : nur1: Set directory modification time (using SetModTime)
+2026/07/11 03:00:53 ERROR : Attempt 2/3 succeeded
+2026/07/11 03:00:53 INFO  : 
+Transferred:   	  178.457 KiB / 178.457 KiB, 100%, 29.740 KiB/s, ETA 0s
+Checks:                17 / 17, 100%, Listed 57
+Deleted:                2 (files), 0 (dirs), 8.746 KiB (freed)
+Transferred:           16 / 16, 100%
+Elapsed time:         9.1s
+
+[2026-07-11 03:00:53] Sinkronisasi Selesai Mandali!
+[2026-07-11 03:23:48] Memulai Sinkronisasi Backend Keuangan...
+2026/07/11 03:23:48 NOTICE: drive3: This remote uses rclone's shared Google Drive client_id, which is being retired and will stop working during 2026. Create your own client_id to avoid interruption: https://rclone.org/drive/#making-your-own-client-id
+2026/07/11 03:23:49 INFO  : nur1: Set directory modification time (using SetModTime)
+2026/07/11 03:23:51 INFO  : perbaiki_flask.py: Copied (replaced existing)
+2026/07/11 03:23:51 ERROR : nur1/rclone_system.log: corrupted on transfer: md5 hashes differ src(Local file system at /home/u0_a421/nama_env_anda/local_c4/03_ADM_KEUANGAN) "a1b3e745b4d8cd3c2bb271d38865c76a" vs dst(Google drive root '03_ADM_KEUANGAN') "f555b29b67b52d7ebdf5b3a744f9e1f2"
+2026/07/11 03:23:51 INFO  : nur1/rclone_system.log: Removing failed copy
+2026/07/11 03:23:51 INFO  : nur1/audit_flask.log: Copied (new)
+2026/07/11 03:23:52 ERROR : Google drive root '03_ADM_KEUANGAN': not deleting files as there were IO errors
+2026/07/11 03:23:52 INFO  : nur1: Set directory modification time (using SetModTime)
+2026/07/11 03:23:52 ERROR : Google drive root '03_ADM_KEUANGAN': not deleting directories as there were IO errors
+2026/07/11 03:23:52 ERROR : Attempt 1/3 failed with 1 errors and: corrupted on transfer: md5 hashes differ src(Local file system at /home/u0_a421/nama_env_anda/local_c4/03_ADM_KEUANGAN) "a1b3e745b4d8cd3c2bb271d38865c76a" vs dst(Google drive root '03_ADM_KEUANGAN') "f555b29b67b52d7ebdf5b3a744f9e1f2"
+2026/07/11 03:23:54 INFO  : nur1/rclone_system.log: Copied (new)
+2026/07/11 03:23:54 INFO  : nur1: Set directory modification time (using SetModTime)
+2026/07/11 03:23:54 ERROR : Attempt 2/3 succeeded
+2026/07/11 03:23:54 INFO  : 
+Transferred:   	    8.049 KiB / 8.049 KiB, 100%, 2.682 KiB/s, ETA 0s
+Checks:                32 / 32, 100%, Listed 72
+Transferred:            3 / 3, 100%
+Elapsed time:         5.8s
+
+[2026-07-11 03:23:54] Sinkronisasi Selesai Mandali!
