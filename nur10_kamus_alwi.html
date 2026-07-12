@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Kamus Indramayu · Agent Alwi · Indramayu Club</title>
+<title>Kamus Alwi - Panel Kontrol Utama</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ══════════════════════════════════════
@@ -360,7 +360,7 @@ footer {
       autocomplete="off" autocapitalize="none"
       onkeydown="if(event.key==='Enter')cari()">
     <button class="btn-cari" onclick="cari()">🔍</button>
-    <button class="btn-cari" id="btnMic" onclick="toggleMic()">🎤</button>
+    <button class="btn-cari" id="btnMic" onclick="toggleMic()"> 🎤</button>
   </div>
 
   <!-- TOOLS -->
@@ -650,7 +650,7 @@ function tampilTidakAda(kata) {
   setStatus('😕 "' + kata + '" tidak ditemukan', 'err');
   document.getElementById('hasilBox').innerHTML = `
     <div class="kartu" style="text-align:center">
-      <div style="font-size:38px;margin-bottom:10px">🤔</div>
+      <div style="font-size:38px;margin-bottom:10px"> 🤔</div>
       <div style="color:var(--emas);font-size:17px;">"${kata}"</div>
       <div style="color:var(--teks-redup);margin-top:8px;font-size:13px;">
         Tidak ada di kamus.<br>Coba 🎲 Kata Acak atau filter kategori.
@@ -751,73 +751,91 @@ document.addEventListener('keydown', e => {
 // ═══════════════════════════════════════════════════════════════════
 
 const AGEN_ALWI_CONFIG = {
-  nama: 'Agen Alwi',
-  emoji: '🤖',
+  nama: 'ALWI grendlew',
+  emoji: '⛑️',
   warnaUtama: '#06140b',      // Hijau tua
   warnaBorder: '#c9a84c',     // Kuning tua
   suara_enabled: true,
   personality: 'ramah-profesional'
 };
 
-// MENU LAYANAN PUBLIK + PENJELASAN DETAIL SETIAP HALAMAN
+ 
 const MENU_LAYANAN = {
-  'beranda': {
-    label: '🏠 Beranda',
-    url: 'index.html',
-    emoji: '🏠',
-    desc: 'Halaman utama Indramayu Club',
-    detail: 'Beranda adalah pintu masuk utama Indramayu Club. Di sini Anda bisa melihat sekilas semua layanan, berita terbaru komunitas, dan akses cepat ke fitur-fitur favorit member.'
+  'nur1': {
+    label: '🏠 Nur 1 - INDRAMAYU_CLUB',
+    desc: 'Portal Utama & Beranda Makrifat',
+    pages: [
+      { key: 'media', label: 'Media Utama', url: 'nur1_media.html' }
+    ]
   },
-  'dashboard': {
-    label: '📊 Dashboard',
-    url: 'DASHBOARD.html',
-    emoji: '📊',
-    desc: 'Panel kontrol member & statistik',
-    detail: 'Dashboard menampilkan statistik pribadi member seperti saldo Rp NUR, GIF NUR, dan Voucher NUR, riwayat aktivitas, serta status keanggotaan Anda di Indramayu Club.'
+  'nur2': {
+    label: '💬 Nur 2 - DASHBOARD SULTAN',
+    desc: 'Login, Server Raja & Admin Video',
+    pages: [
+      { key: 'login', label: 'Login Sultan', url: 'nur2_login.html' },
+      { key: 'raja', label: 'Raja Server', url: 'nur2_raja_server.html' },
+      { key: 'admin', label: 'Admin Vidio', url: 'nur2.adminVIDIO.html' }
+    ]
   },
-  'kamus': {
-    label: '📖 Kamus Indramayu',
-    url: 'kamus.html',
-    emoji: '📖',
-    desc: 'Kamus bahasa & budget Nur poin',
-    detail: 'Kamus Indramayu berisi koleksi kosakata Basa Dermayu lengkap dengan arti dalam Bahasa Indonesia. Setiap kata yang dibuka bisa menghasilkan bonus Rp NUR, GIF NUR, atau Voucher NUR secara acak. Ada juga fitur klaim kode voucher langsung dari kolom pencarian.'
+  'nur3': {
+    label: '📊 Nur 3 - ADMINISTRASI',
+    desc: 'Dashboard Keuangan Pagi (Kas 5% & Voucher)',
+    pages: [
+      { key: 'keuangan', label: 'Keuangan Pagi', url: 'nur3_keuangan_pagi.html' }
+    ]
   },
-  'kalkulator': {
-    label: '🧮 Kalkulator Berkah',
-    url: 'KALKULATOR.html',
-    emoji: '🧮',
-    desc: 'Kalkulator wujud makrifat',
-    detail: 'Kalkulator Berkah membantu Anda menghitung konversi poin dan estimasi wujud makrifat berdasarkan aktivitas yang telah dilakukan di Indramayu Club.'
+  'nur4': {
+    label: '🎨 Nur 4 - KREATOR_DIGITAL',
+    desc: 'Manajemen Aset Digital',
+    pages: [
+      { key: 'aset', label: 'Aset Digital', url: 'nur4_aset_digital.html' }
+    ]
   },
-  'live_member': {
-    label: '👥 Live Member',
-    url: 'live_member.html',
-    emoji: '👥',
-    desc: 'Streaming anggota club secara live',
-    detail: 'Live Member adalah ruang siaran langsung tempat anggota biasa Indramayu Club dapat menonton dan berinteraksi dengan sesama member secara real-time.'
+  'nur5': {
+    label: '🎯 Nur 5 - GAME_ARISAN',
+    desc: 'Menu Utama Modul Arisan',
+    pages: [
+      { key: 'menu', label: 'Menu Utama', url: 'nur5_menu_utama.html' }
+    ]
   },
-  'live_vvip': {
-    label: '👑 Live VVIP',
-    url: 'Live_vvip.html',
-    emoji: '👑',
-    desc: 'Panggung Sultan eksklusif',
-    detail: 'Live VVIP alias Panggung Sultan adalah ruang siaran eksklusif dengan fitur lempar properti digital (GifNur, Voucher Nur), animasi khusus, dan interaksi premium bersama Pak Dulkohar dan member VVIP lainnya.'
+  'nur6': {
+    label: '💰 Nur 6 - BANK_GAME',
+    desc: 'Vault Kas & Admin Keuangan (folder terpisah)',
+    pages: [
+      { key: 'adm', label: 'Folder Admin Keuangan', url: '03_ADM_KEUANGAN/' }
+    ]
   },
-  'komentar': {
-    label: '💬 Ruang Diskusi',
-    url: 'komentar.html',
-    emoji: '💬',
-    desc: 'Forum member berbagi kesan',
-    detail: 'Ruang Diskusi adalah forum komunitas tempat member Indramayu Club saling berbagi cerita, kesan, dan diskusi seputar budaya serta kegiatan club.'
+  'nur7': {
+    label: '🔊 Nur 7 - STREAMING & LIVE',
+    desc: 'Live Member, Streaming & Status Panggung',
+    pages: [
+      { key: 'live', label: 'Live Member', url: 'nur7_live_member.html' },
+      { key: 'straming', label: 'Streaming', url: 'nur7.straming.html' },
+      { key: 'panggung', label: 'Status Panggung', url: 'nur7_panggung_status.html' }
+    ]
   },
-  'login': {
-    label: '🔐 Login',
-    url: 'login.html',
-    emoji: '🔐',
-    desc: 'Verifikasi member Telkomsel',
-    detail: 'Halaman Login digunakan untuk verifikasi keanggotaan melalui akun Telkomsel Anda, memastikan hanya member terdaftar yang bisa mengakses layanan eksklusif Indramayu Club.'
+  'nur8': {
+    label: '🌙 Nur 8 - SISTEM & EMULATOR',
+    desc: 'Emulator & Pemeliharaan',
+    pages: [
+      { key: 'emulator', label: 'Emulator', url: 'nur8_emulator.html' }
+    ]
+  },
+  'nur9': {
+    label: '🎮 Nur 9 - GAME_INDRAMAYU',
+    desc: 'Belum tersedia di server (file belum dibuat)',
+    pages: []
+  },
+  'nur10': {
+    label: '👑 Nur 10 - PEWARIS_CAHAYA',
+    desc: 'Kamus Alwi / Panggung Sultan VVIP',
+    pages: [
+      { key: 'kamus', label: 'Kamus Alwi', url: 'nur10_kamus_alwi.html' }
+    ]
   }
 };
+,
+    
 
 // JADWAL AZAN (Indramayu, Jawa Barat)
 const JADWAL_AZAN = {
@@ -900,7 +918,7 @@ let sedangBicaraGTTS = false;
 
 // Pecah teks panjang jadi potongan kalimat agar sesuai batas GTTS
 function pecahTeksUntukGTTS(teks, maxLen) {
-  const bersih = teks.replace(/\n+/g, '. ').replace(/[🤖🌙✨💰🕌👤🏠📊📖🧮👥👑💬🔐🎯✅🔊🙏😊🌿]/g, '');
+  const bersih = teks.replace(/\n+/g, '. ').replace(/[🤖🌙✨💰🕌👤🏠📊 📖🧮👥 👑💬🔐🎯✅🔊🙏😊🌿]/g, '');
   const kalimat = bersih.split(/(?<=[.!?])\s+/).filter(k => k.trim().length > 0);
   const potongan = [];
   let buffer = '';
@@ -1446,6 +1464,5 @@ window.AgenAlwi = {
 };
 
 </script>
+<script src="components/agen-alwi-bot.js"></script>
 </body>
-</html>
-
