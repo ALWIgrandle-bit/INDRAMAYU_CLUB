@@ -1,15 +1,11 @@
 nohup: ignoring input
- * Tip: There are .env files present. Install python-dotenv to use them.
-[SISTEM] Sinkronisasi database dari Google Drive sedang berjalan...
-[SISTEM] Sinkronisasi sukses!
+[SISTEM] Memulai Flask Server di Port 8890...
  * Serving Flask app 'perbaiki_flask'
- * Debug mode: on
+ * Debug mode: off
 [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on all addresses (0.0.0.0)
- * Running on http://127.0.0.1:8891
- * Running on http://10.95.183.137:8891
+ * Running on http://127.0.0.1:8890
+ * Running on http://10.128.0.2:8890
 [33mPress CTRL+C to quit[0m
- * Restarting with stat
- * Tip: There are .env files present. Install python-dotenv to use them.
- * Debugger is active!
- * Debugger PIN: 966-289-387
+127.0.0.1 - - [12/Jul/2026 20:40:47] "[33mHEAD / HTTP/1.1[0m" 404 -
+127.0.0.1 - - [12/Jul/2026 20:40:47] "[33mHEAD / HTTP/1.1[0m" 404 -
