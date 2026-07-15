@@ -1,0 +1,498 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator –🌍 Pasar Indramayu Club Makrifat</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg-dark:    #030914;
+    --panel-bg:   rgba(10, 25, 47, 0.75);
+    --cyan-glow:  #00f0ff;
+    --blue-bright:#38b6ff;
+    --text-light: #e2f1ff;
+    --btn-num:    rgba(20, 40, 80, 0.5);
+    --btn-op:     rgba(0, 180, 216, 0.3);
+    --btn-eq:     linear-gradient(135deg, #00b4d8 0%, #00f0ff 100%);
+    --shadow-rgb: 0, 240, 255;
+  }
+
+  body {
+    min-height: 100vh;
+    background: var(--bg-dark);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    padding: 20px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Digital Grid Background Effect */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: 
+      linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    pointer-events: none;
+  }
+
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(56, 182, 255, 0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 380px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+    animation: fadeDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .header .ornament {
+    color: var(--cyan-glow);
+    font-size: 1.2rem;
+    letter-spacing: 6px;
+    text-shadow: 0 0 10px var(--cyan-glow);
+    opacity: 0.8;
+  }
+
+  .header h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+    letter-spacing: 1px;
+    line-height: 1.4;
+    margin: 6px 0;
+  }
+
+  .header .sub {
+    font-size: 0.8rem;
+    color: var(--blue-bright);
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  /* Calculator Glassmorphism Body */
+  .calc {
+    background: var(--panel-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 2px solid rgba(0, 240, 255, 0.3);
+    border-radius: 24px;
+    padding: 24px 20px 20px;
+    box-shadow:
+      0 0 30px rgba(0, 240, 255, 0.1),
+      0 20px 50px rgba(0,0,0,0.5),
+      inset 0 1px 2px rgba(255,255,255,0.1);
+    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both 0.1s;
+    position: relative;
+  }
+
+  .calc::before {
+    content: '';
+    position: absolute;
+    top: -2px; left: 20%; right: 20%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan-glow), transparent);
+    box-shadow: 0 0 10px var(--cyan-glow);
+  }
+
+  /* Cyberpunk Corner accents */
+  .corner {
+    position: absolute;
+    width: 12px; height: 12px;
+    border-color: var(--cyan-glow);
+    border-style: solid;
+    opacity: 0.8;
+  }
+  .corner.tl { top: 12px; left: 12px; border-width: 2px 0 0 2px; }
+  .corner.tr { top: 12px; right: 12px; border-width: 2px 2px 0 0; }
+  .corner.bl { bottom: 12px; left: 12px; border-width: 0 0 2px 2px; }
+  .corner.br { bottom: 12px; right: 12px; border-width: 0 2px 2px 0; }
+
+  /* Display */
+  .display {
+    background: rgba(5, 12, 28, 0.85);
+    border: 1.5px solid rgba(0, 240, 255, 0.2);
+    border-radius: 14px;
+    padding: 16px 18px 12px;
+    margin-bottom: 20px;
+    min-height: 95px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);
+    position: relative;
+  }
+
+  .display::before {
+    content: '🌲 KAMI MELAYANI DIGITALISASI  MAKRIFAT DIGITAL 🌲';
+    position: absolute;
+    top: 8px; left: 18px;
+    font-size: 0.55rem;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 2px;
+    color: rgba(0, 240, 255, 0.4);
+  }
+
+  .display .expr {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    color: rgba(56, 182, 255, 0.6);
+    min-height: 20px;
+    word-break: break-all;
+    text-align: right;
+  }
+
+  .display .result {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.3rem;
+    font-weight: 500;
+    color: #ffffff;
+    text-shadow: 0 0 12px rgba(0, 240, 255, 0.5);
+    word-break: break-all;
+    text-align: right;
+    line-height: 1.2;
+    transition: all 0.15s;
+  }
+
+  .display .result.big { font-size: 1.8rem; }
+  .display .result.bigger { font-size: 1.3rem; }
+
+  /* Grid & Buttons */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  button {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 500;
+    border: 1px solid rgba(0, 240, 255, 0.15);
+    border-radius: 12px;
+    cursor: pointer;
+    height: 56px;
+    color: var(--text-light);
+    transition: all 0.15s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  button:hover {
+    border-color: rgba(0, 240, 255, 0.5);
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.15);
+  }
+
+  button:active { transform: scale(0.95); }
+
+  .btn-num { background: var(--btn-num); }
+  .btn-num:hover { background: rgba(30, 60, 110, 0.6); color: #ffffff; }
+
+  .btn-op { background: var(--btn-op); color: var(--cyan-glow); border-color: rgba(0, 240, 255, 0.25); }
+  .btn-op:hover { background: rgba(0, 180, 216, 0.45); text-shadow: 0 0 8px var(--cyan-glow); }
+
+  .btn-sp { background: rgba(15, 32, 67, 0.4); color: var(--blue-bright); font-size: 0.95rem; }
+  .btn-sp:hover { background: rgba(25, 52, 107, 0.6); color: #ffffff; }
+
+  .btn-eq { background: var(--btn-eq); color: var(--bg-dark); font-weight: 700; border: none; box-shadow: 0 0 15px rgba(0, 240, 255, 0.4); }
+  .btn-eq:hover { box-shadow: 0 0 22px rgba(0, 240, 255, 0.7); filter: brightness(1.1); }
+
+  .span2 { grid-column: span 2; }
+
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(0, 240, 255, 0.4);
+    transform: scale(0);
+    animation: ripple 0.4s linear;
+    pointer-events: none;
+  }
+  @keyframes ripple { to { transform: scale(4); opacity: 0; } }
+
+  .footer {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 0.7rem;
+    color: rgba(56, 182, 255, 0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Orbitron', sans-serif;
+    animation: fadeUp 0.8s ease both 0.3s;
+  }
+
+  @keyframes fadeDown { from { opacity:0; transform:translateY(-15px); } to { opacity:1; transform:none; } }
+  @keyframes fadeUp   { from { opacity:0; transform:translateY(15px);  } to { opacity:1; transform:none; } }
+
+  .pulse { animation: pulse 0.15s ease-out; }
+  @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="header">
+    <div class="ornament">🌎</div>
+    <h1>PASAR GLOBAL<br>CLUB MAKRIFAT</h1>
+    <div class="sub">Kalkulator Berkah</div>
+  </div>
+
+  <div class="calc">
+    <div class="corner tl"></div>
+    <div class="corner tr"></div>
+    <div class="corner bl"></div>
+    <div class="corner br"></div>
+
+    <div class="display">
+      <div class="expr" id="expr"></div>
+      <div class="result" id="result">0</div>
+    </div>
+
+    <div class="grid">
+      <button class="btn-sp" id="btn-ac" onclick="clearAll(event)">AC</button>
+      <button class="btn-sp" onclick="toggleSign(event)">+/-</button>
+      <button class="btn-sp" onclick="percent(event)">%</button>
+      <button class="btn-op" onclick="setOp('÷', event)">÷</button>
+
+      <button class="btn-num" onclick="num('7', event)">7</button>
+      <button class="btn-num" onclick="num('8', event)">8</button>
+      <button class="btn-num" onclick="num('9', event)">9</button>
+      <button class="btn-op" onclick="setOp('×', event)">×</button>
+
+      <button class="btn-num" onclick="num('4', event)">4</button>
+      <button class="btn-num" onclick="num('5', event)">5</button>
+      <button class="btn-num" onclick="num('6', event)">6</button>
+      <button class="btn-op" onclick="setOp('−', event)">−</button>
+
+      <button class="btn-num" onclick="num('1', event)">1</button>
+      <button class="btn-num" onclick="num('2', event)">2</button>
+      <button class="btn-num" onclick="num('3', event)">3</button>
+      <button class="btn-op" onclick="setOp('+', event)">+</button>
+
+      <button class="btn-num span2" onclick="num('0', event)">0</button>
+      <button class="btn-num" onclick="dot(event)">.</button>
+      <button class="btn-eq" onclick="calc(event)">=</button>
+    </div>
+  </div>
+
+  <div class="footer">💫Global Blessing System 💫</div>
+</div>
+
+<script>
+  let cur = '0', prev = '', op = '';
+  let isOpPressed = false;      // Flag pengaman setelah menekan tombol operator
+  let hasEvaluated = false;     // Flag pengaman setelah menekan tombol sama dengan (=)
+
+  const disp = document.getElementById('result');
+  const expr = document.getElementById('expr');
+
+  function updateDisplay(val) {
+    let formatted = format(val);
+    disp.textContent = formatted;
+    
+    const len = String(formatted).length;
+    disp.className = 'result' + (len > 12 ? ' bigger' : len > 8 ? ' big' : '');
+    disp.classList.remove('pulse');
+    void disp.offsetWidth; // Trigger reflow untuk mengulang animasi pulse
+    disp.classList.add('pulse');
+  }
+
+  function format(n) {
+    if (n === 'Error') return 'Error';
+    const s = String(n);
+    // Jika sedang mengetik desimal atau angka berakhiran nol dibelakang koma, biarkan teks aslinya
+    if (s.endsWith('.') || (s.includes('.') && s.endsWith('0'))) {
+      return s.replace('.', ',');
+    }
+    const num = parseFloat(n);
+    if (isNaN(num)) return s;
+    if (Math.abs(num) >= 1e15) return num.toExponential(4);
+    return num.toLocaleString('id-ID', { maximumFractionDigits: 10 });
+  }
+
+  function num(d, e) {
+    if (e) rippleBtn(e);
+    
+    // Jika baru saja menekan operator atau selesai menghitung (=), buat input angka baru
+    if (isOpPressed || hasEvaluated) {
+      cur = d;
+      isOpPressed = false;
+      hasEvaluated = false;
+    } else {
+      if (cur === '0') {
+        cur = d;
+      } else if (cur.length < 16) {
+        cur += d;
+      }
+    }
+    updateDisplay(cur);
+  }
+
+  function dot(e) {
+    if (e) rippleBtn(e);
+    
+    if (isOpPressed || hasEvaluated) {
+      cur = '0.';
+      isOpPressed = false;
+      hasEvaluated = false;
+    } else if (!cur.includes('.')) {
+      cur += '.';
+    }
+    updateDisplay(cur);
+  }
+
+  function setOp(nextOp, e) {
+    if (e) rippleBtn(e);
+    if (cur === 'Error') return;
+
+    // Jika operator ditekan berurutan tanpa menekan angka, cukup ganti jenis operatornya
+    if (op && isOpPressed) {
+      op = nextOp;
+      expr.textContent = format(prev) + ' ' + op;
+      return;
+    }
+
+    if (prev === '') {
+      prev = cur;
+    } else if (op) {
+      executeLogic();
+    }
+
+    op = nextOp;
+    isOpPressed = true;
+    hasEvaluated = false;
+    expr.textContent = format(prev) + ' ' + op;
+  }
+
+  function executeLogic() {
+    const a = parseFloat(prev);
+    const b = parseFloat(cur);
+    if (isNaN(a) || isNaN(b)) return;
+
+    let res;
+    switch (op) {
+      case '+': res = a + b; break;
+      case '−': res = a - b; break;
+      case '×': res = a * b; break;
+      case '÷': res = b === 0 ? 'Error' : a / b; break;
+      default: return;
+    }
+
+    if (res === 'Error') {
+      cur = 'Error';
+      prev = '';
+      op = '';
+    } else {
+      // Pembulatan presisi desimal JavaScript agar tidak muncul angka aneh di belakang (e.g. 0.1+0.2)
+      cur = String(Math.round(res * 1e12) / 1e12);
+      prev = cur;
+    }
+  }
+
+  function calc(e) {
+    if (e) rippleBtn(e);
+    if (!op || prev === '' || isOpPressed) return;
+
+    let localPrev = prev;
+    let localCur = cur;
+    let localOp = op;
+
+    executeLogic();
+
+    if (cur !== 'Error') {
+      expr.textContent = format(localPrev) + ' ' + localOp + ' ' + format(localCur) + ' =';
+      prev = '';
+      op = '';
+      hasEvaluated = true;
+      isOpPressed = false;
+    }
+    updateDisplay(cur);
+  }
+
+  function clearAll(e) {
+    if (e) rippleBtn(e);
+    cur = '0'; prev = ''; op = '';
+    isOpPressed = false;
+    hasEvaluated = false;
+    expr.textContent = '';
+    updateDisplay('0');
+  }
+
+  function toggleSign(e) {
+    if (e) rippleBtn(e);
+    if (cur === '0' || cur === 'Error') return;
+    cur = String(-parseFloat(cur));
+    updateDisplay(cur);
+  }
+
+  function percent(e) {
+    if (e) rippleBtn(e);
+    if (cur === 'Error' || cur === '0') return;
+    cur = String(parseFloat(cur) / 100);
+    updateDisplay(cur);
+  }
+
+  function rippleBtn(e) {
+    const btn = e.currentTarget;
+    if (!btn) return;
+    const r = document.createElement('span');
+    r.className = 'ripple';
+    const rect = btn.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    r.style.cssText = `width:${size}px;height:${size}px;left:${(rect.width-size)/2}px;top:${(rect.height-size)/2}px`;
+    btn.appendChild(r);
+    setTimeout(() => r.remove(), 400);
+  }
+
+  // Integrasi Keyboard Handal & Stabil
+  document.addEventListener('keydown', e => {
+    const k = e.key;
+    if ('0123456789'.includes(k))        { num(k, null); }
+    else if (k === '.' || k === ',')      { dot(null); }
+    else if (k === '+')                  { setOp('+', null); }
+    else if (k === '-')                  { setOp('−', null); }
+    else if (k === '*')                  { setOp('×', null); }
+    else if (k === '/')                  { e.preventDefault(); setOp('÷', null); }
+    else if (k === 'Enter' || k === '=') { calc(null); }
+    else if (k === 'Backspace')          { 
+      e.preventDefault();
+      if (hasEvaluated || isOpPressed || cur === 'Error') return;
+      if (cur.length > 1) {
+        cur = cur.slice(0, -1);
+        if (cur === '-' || cur === '') cur = '0';
+      } else {
+        cur = '0';
+      }
+      updateDisplay(cur);
+    }
+    else if (k === 'Escape')             { clearAll(null); }
+    else if (k === '%')                  { percent(null); }
+  });
+</script>
+</body>
+</html>
+
+	
