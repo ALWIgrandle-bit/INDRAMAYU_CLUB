@@ -138,7 +138,8 @@ const server = http.createServer(async (req, res) => {
     }));
   }
 
-  // ── DELETE /reset — reset semua log (admin only) ──
+
+.  // ── DELETE /reset — reset semua log (admin only) ──
   if (url === '/reset' && req.method === 'DELETE') {
     const body = await parseBody(req);
     
@@ -219,3 +220,104 @@ server.on('error', (err) => {
 });
 
 	
+// Tambahkan konfigurasi URL Server Alwi di bagian atas file agen_alwi.js
+const SERVER_ALWI_URL = 'http://localhost:8882';
+
+// State untuk melacak apakah user sedang dalam proses mengisi Buku Tamu / Komentar
+let alwiState = {
+  step: 'idle', // 'idle', 'tunggu_nama', 'tunggu_komen'
+  nama: '',
+  komen: ''
+};
+
+function kirimPesanKeAlwi() {
+  const input = document.getElementById('agenAlwiInput');
+  const teks = input.value.trim();
+  if (!teks) return;
+  
+  tambahPesanUser(teks);
+  input.value = '';
+  
+  setTimeout(() => {
+    // Cek dulu apakah user sedang dalam proses mengisi form komentar terpandu
+    if (alwiState.step === 'tunggu_nama') {
+      alwiState.nama = teks;
+      alwiState.step = 'tunggu_komen';
+      tambahPesanAlwiRaw(`Salam kenal, ${alwiState.nama}! Sekarang, silakan tuliskan pesan, komentar, atau saran spiritual Anda untuk Indramayu Club:`);
+      return;
+    }
+    
+    if (alwiState.step === 'tunggu_komen') {
+      alwiState.komen = teks;
+      tambahPesanAlwiRaw(`Merekam pesan ke Server Alwi... Mohon tunggu sejenak.`);
+      kirimKomentarKeServer(alwiState.nama, alwiState.komen);
+      alwiState.step = 'idle'; // Reset state
+      return;
+    }
+
+    // Jika pesan biasa, proses kata kunci navigasi seperti biasa
+    prosesKatalKunciKomplit(teks);
+  }, 500);
+}
+
+// Fungsi baru untuk menembak API Server Alwi di Port 8882
+function kirimKomentarKeServer(nama, komen) {
+  fetch(`${SERVER_ALWI_URL}/komen`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nama: nama, komen: komen })
+  })
+  .then(res => {
+    if (!res.ok) throw new Error('Gagal menyimpan');
+    return res.json();
+  })
+  .then(data => {
+    tambahPesanAlwiRaw(`✅ Berhasil! ${data.pesan}`);
+  })
+  .catch(err => {
+    console.error(err);
+    tambahPesanAlwiRaw(`⚠️ Waduh, Server Alwi (Port 8882) tampaknya belum dinyalakan atau tidak merespon. Pesan Anda belum tersimpan.`);
+  });
+}
+
+function prosesKatalKunciKomplit(teks) {
+  const lowTeks = teks.toLowerCase();
+
+  // Kata kunci pemicu untuk mengisi buku tamu/saran
+  if (lowTeks === 'daftar' || lowTeks === 'komen' || lowTeks === 'saran' || lowTeks === 'tamu') {
+    alwiState.step = 'tunggu_nama';
+    tambahPesanAlwiRaw('Silakan ketik NAMA Anda terlebih dahulu:');
+    return;
+  }
+
+  if (lowTeks === 'menu' || lowTeks === 'layanan') {
+    tambahPesanAlwiRaw('Daftar Ruangan Nur:\n\n' + Object.values(MENU_LAYANAN).map(m => m.label).join('\n') + '\n\nKetik kode Nur (misal: "nur8") untuk membuka panel ikon cepat.');
+    return;
+  }
+
+  const sortedKeys = Object.keys(MENU_LAYANAN).sort((a, b) => b.length - a.length);
+
+  for (const key of sortedKeys) {
+    if (lowTeks === key) {
+      const menu = MENU_LAYANAN[key];
+      if (menu.pages.length === 1) {
+        tambahPesanAlwiRaw(`Mengarahkan otomatis ke ${menu.label}...`);
+        setTimeout(() => { window.location.href = menu.pages[0].url; }, 1000);
+      } else {
+        tambahPesanAlwiDenganIkon(menu.label, menu.desc, menu.pages, key);
+      }
+      return;
+    }
+
+    const menu = MENU_LAYANAN[key];
+    const kataKunciSub = menu.pages.find(p => lowTeks === `${key} ${p.key}` || lowTeks === p.key);
+    if (kataKunciSub) {
+      tambahPesanAlwiRaw(`Mengarahkan ke ${menu.label} - ${kataKunciSub.label}...`);
+      setTimeout(() => { window.location.href = kataKunciSub.url; }, 1000);
+      return;
+    }
+  }
+
+  tambahPesanAlwiRaw('Perintah tidak dikenali. Ketik kode lengkap seperti "nur8", "menu", atau ketik "komen" untuk meninggalkan pesan.');
+}
+
