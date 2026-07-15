@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nur5 - Game Arisan Dadu Asia Tenggara</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Trebuchet MS', sans-serif;
+    background: repeating-linear-gradient(45deg, #1a3d2e, #1a3d2e 20px, #204a37 20px, #204a37 40px);
+    color: #fff8e7;
+    padding: 16px;
+    min-height: 100vh;
+  }
+  h1 {
+    text-align: center;
+    color: #ffd23f;
+    font-size: 22px;
+    text-shadow: 2px 2px 0 #7a1f1f;
+    margin-bottom: 2px;
+  }
+  .sub {
+    text-align: center;
+    font-size: 12px;
+    color: #c8e6c9;
+    margin-bottom: 16px;
+  }
+  .papan {
+    max-width: 480px;
+    margin: 0 auto;
+    background: #2b1810;
+    border: 4px solid #ffd23f;
+    border-radius: 16px;
+    padding: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+  /* Bar Bendera Kawasan Sektor Kreatif ASEAN */
+  .asean-bar {
+    display: flex;
+    height: 6px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .flag-stripe { flex: 1; }
+  .st-ina { background: #ff0000; border-bottom: 3px solid #ffffff; }
+  .st-mas { background: #002060; border-bottom: 3px solid #cc0000; }
+  .st-sin { background: #e00000; border-bottom: 3px solid #ffffff; }
+  .st-tha { background: #2d2a4a; border-bottom: 3px solid #ffffff; }
+
+  .pemain-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .kartu-pemain {
+    background: #3d2418;
+    border: 2px solid #6b4226;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .kartu-pemain.kena {
+    animation: goyang 0.4s;
+    border-color: #e94560;
+  }
+  @keyframes goyang {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+  .nama-pemain { font-weight: bold; font-size: 13px; color: #ffd23f; margin-top: 4px;}
+  .bendera-negara { font-size: 24px; margin-bottom: 2px; }
+  .dadu-hasil { font-size: 34px; margin: 6px 0; }
+  .skor { font-size: 11px; color: #c8e6c9; }
+  
+  #panggung {
+    text-align: center;
+    min-height: 60px;
+    font-size: 14px;
+    color: #fff8e7;
+    background: #1a0f0a;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 12px;
+  }
+  .properti-terbang {
+    position: absolute;
+    font-size: 40px;
+    z-index: 10;
+    pointer-events: none;
+    animation: terbang 0.7s ease-in forwards;
+  }
+  @keyframes terbang {
+    0% { transform: translate(0,0) scale(0.5) rotate(0deg); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) scale(1.4) rotate(360deg); opacity: 0; }
+  }
+  button {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #ffd23f, #e6a800);
+    color: #2b1810;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  button:disabled { opacity: 0.5; }
+  button.ulang {
+    background: #3d2418;
+    color: #ffd23f;
+    border: 2px solid #ffd23f;
+    margin-top: 8px;
+  }
+  .radio-boombox {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 4px;
+  }
+</style>
+</head>
+<body>
+
+<h1>🎲 Nur5 - Dadu Arisan Kampung</h1>
+<div class="sub">Indramayu Club · Edisi Lintas Asia Tenggara</div>
+
+<div class="papan">
+  <!-- Bar Minimalis Warna Bendera Sektor Kreatif -->
+  <div class="asean-bar">
+    <div class="flag-stripe st-ina"></div>
+    <div class="flag-stripe st-mas"></div>
+    <div class="flag-stripe st-sin"></div>
+    <div class="flag-stripe st-tha"></div>
+  </div>
+
+  <div class="radio-boombox">📻🇲🇨🇲🇾🇸🇬🇹🇭🌴</div>
+
+  <div class="pemain-grid" id="grid-pemain"></div>
+
+  <div id="panggung">Tekan "Lempar Dadu Semua!" untuk memulai kocokan arisan.</div>
+
+  <button id="btn-lempar" onclick="lemparSemua()">🎲 Lempar Dadu Semua!</button>
+  <button class="ulang" onclick="mainLagi()">🔄 Mulai Ulang Arisan</button>
+</div>
+
+<script>
+  // Konfigurasi Identitas Anggota Arisan dan Negara
+  const namaPemain = ["Kang Ujang", "Cik Minah", "Ah Seng", "Somchai"];
+  const benderaNegara = ["🇲🇨 Indonesia", "🇲🇾 Malaysia", "🇸🇬 Singapura", "🇹🇭 Thailand"];
+  
+  // Properti unik khas 90'an yang akan terbang melempar yang kalah
+  const properti = ["🩴", "💣", "🥥", "🧦", "🐡", "🍅"];
+  
+  let skor = [0,0,0,0];
+  let sedangLempar = false;
+
+  function renderPemain(hasilDadu = [null,null,null,null], kena = [false,false,false,false]) {
+    const grid = document.getElementById('grid-pemain');
+    grid.innerHTML = '';
+    namaPemain.forEach((nama, i) => {
+      const kartu = document.createElement('div');
+      kartu.className = 'kartu-pemain' + (kena[i] ? ' kena' : '');
+      kartu.id = 'pemain-' + i;
+      kartu.innerHTML = `
+        <div class="bendera-negara">${benderaNegara[i].split(' ')[0]}</div>
+        <div class="nama-pemain">${nama} (${benderaNegara[i].split(' ')[1]})</div>
+        <div class="dadu-hasil">${hasilDadu[i] !== null ? angkaKeDadu(hasilDadu[i]) : '🎲'}</div>
+        <div class="skor">Poin Koin: ${skor[i]}</div>
+      `;
+      grid.appendChild(kartu);
+    });
+  }
+
+  function angkaKeDadu(n) {
+    const muka = ['⚀','⚁','⚂','⚃','⚄','⚅'];
+    return muka[n - 1];
+  }
+
+  function lemparSemua() {
+    if (sedangLempar) return;
+    sedangLempar = true;
+    document.getElementById('btn-lempar').disabled = true;
+    document.getElementById('panggung').textContent = 'Dadu arisan sedang dikocok... 🌀';
+
+    let hitungan = 0;
+    const animasi = setInterval(() => {
+      const acak = namaPemain.map(() => Math.ceil(Math.random() * 6));
+      renderPemain(acak);
+      hitungan++;
+      if (hitungan > 8) {
+        clearInterval(animasi);
+        selesaiLempar();
+      }
+    }, 100);
+  }
+
+  function selesaiLempar() {
+    const hasil = namaPemain.map(() => Math.ceil(Math.random() * 6));
+    const tertinggi = Math.max(...hasil);
+    const terendah = Math.min(...hasil);
+
+    const pemenangIdx = hasil.indexOf(tertinggi);
+    const kalahIdx = hasil.map((v, i) => v === terendah ? i : -1).filter(i => i !== -1);
+
+    skor[pemenangIdx]++;
+
+    const kenaFlag = [false,false,false,false];
+    kalahIdx.forEach(i => kenaFlag[i] = true);
+
+    renderPemain(hasil, kenaFlag);
+
+    const namaNegaraPemenang = benderaNegara[pemenangIdx];
+    document.getElementById('panggung').innerHTML =
+      `🏆 <b>${namaPemain[pemenangIdx]} (${namaNegaraPemenang.split(' ')[1]})</b> Menang Kocokan! (Dadu: ${tertinggi})<br>` +
+      `😵 ${kalahIdx.map(i => namaPemain[i]).join(', ')} Kalah Arisan & Kena Lempar!`;
+
+    // Sistem lempar properti otomatis ke pemain kalah
+    kalahIdx.forEach(i => lemparProperti(i));
+
+    document.getElementById('btn-lempar').disabled = false;
+    sedangLempar = false;
+  }
+
+  function lemparProperti(indexPemain) {
+    const target = document.getElementById('pemain-' + indexPemain);
+    const papan = document.querySelector('.papan');
+    const rectTarget = target.getBoundingClientRect();
+    const rectPapan = papan.getBoundingClientRect();
+
+    const el = document.createElement('div');
+    el.className = 'properti-terbang';
+    
+    // Memilih acak properti lemparan
+    el.textContent = properti[Math.floor(Math.random() * properti.length)];
+
+    const startX = rectPapan.width / 2;
+    const startY = 0;
+    el.style.left = startX + 'px';
+    el.style.top = startY + 'px';
+
+    const dx = (rectTarget.left - rectPapan.left) - startX + 20;
+    const dy = (rectTarget.top - rectPapan.top) - startY + 20;
+    el.style.setProperty('--dx', dx + 'px');
+    el.style.setProperty('--dy', dy + 'px');
+
+    papan.appendChild(el);
+    setTimeout(() => el.remove(), 700);
+  }
+
+  function mainLagi() {
+    skor = [0,0,0,0];
+    document.getElementById('panggung').textContent = 'Tekan "Lempar Dadu Semua!" untuk mulai ronde.';
+    renderPemain();
+  }
+
+  renderPemain();
+</script>
+
+</body>
+</html>
+
