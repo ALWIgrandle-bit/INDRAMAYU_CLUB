@@ -1,151 +1,265 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NUR7 STREAM - ALWI KAMUS INDRAMAYU</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Portal Pembelajaran - Alwi Kamus Indramayu</title>
+<meta property="og:title" content="Portal Pembelajaran Alwi Kamus Indramayu">
+<meta property="og:description" content="Pusat informasi dan layanan digital komunitas Indramayu Club.">
+<meta property="og:image" content="https://imahazzah51-max.github.io/hugoNUR3/ALWI_grendle.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://imahazzah51-max.github.io/hugoNUR3/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Alwi Kamus Indramayu">
+<meta name="description" content="Portal informasi digital komunitas Indramayu Club">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:#0a0a0a;
+  font-family:'Inter',Arial,sans-serif;
+  height:100vh; width:100vw;
+  display:flex; flex-direction:column;
+  overflow:hidden;
+}
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none;
+  background:radial-gradient(ellipse at 50% 30%,rgba(201,168,76,0.05) 0%,transparent 70%);
+}
 
-  <!-- FIX: Meta Open Graph Disamakan dengan Root URL GitHub Pages untuk Lolos Facebook -->
-  <meta property="og:title" content="ALWI KAMUS INDRAMAYU | UJI COBA GRATIS">
-  <meta property="og:description" content="BOM SANDAL KOIN LIVE M001-M010. Gratis Sampe 30 Juli 2026!">
-  <meta property="og:image" content="https://imahazzah51-max.github.io/hugoNUR3/Screenshot_2026_0713_111810.jpg">
-  <meta property="og:url" content="https://imahazzah51-max.github.io/hugoNUR3/index.html">
+/* FIX: Menggunakan Flexbox proporsional agar gambar tidak tertekan paksa */
+.panggung {
+  flex: 1;
+  width: 100%;
+  display: flex; align-items: center; justify-content: center;
+  padding: 15px;
+  overflow: hidden;
+}
+.panggung img {
+  max-width: 100%; max-height: 100%;
+  object-fit: contain; border-radius: 12px;
+  box-shadow: 0 4px 25px rgba(0,0,0,0.6);
+}
 
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: #000;
-      overflow: hidden;
-      font-family: 'Inter', Arial, sans-serif;
-      height: 100vh;
-      width: 100vw;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
+/* FIX: Pembungkus menu di bawah menggunakan susunan block statis yang kokoh */
+.tombol-wrapper {
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  padding: 12px 16px env(safe-area-inset-bottom, 12px) 16px;
+  display: flex; flex-direction: column; gap: 7px;
+  background: linear-gradient(to top, #0a0a0a 80%, transparent);
+  z-index: 999;
+}
+.badge-sultan {
+  background:rgba(201,168,76,0.15);
+  border:1px solid rgba(201,168,76,0.4);
+  color:#FFD700; font-size:11px; font-weight:700;
+  padding:4px 14px; border-radius:20px;
+  letter-spacing:0.08em; text-align:center;
+  align-self: center;
+}
+.btn-sultan {
+  display:block; width:100%; padding:11px;
+  background:linear-gradient(135deg,#C9A84C,#FFD700);
+  color:#0a0a0a; font-weight:700; font-size:13px;
+  text-decoration:none; border-radius:10px;
+  transition:opacity 0.15s; text-align:center;
+  border:none; cursor:pointer;
+  font-family:'Inter',Arial,sans-serif;
+}
+.btn-sultan:active { opacity:0.8; }
 
-    .panggung {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px;
-      padding-bottom: 140px; 
-    }
+/* FIX: Struktur Dropup yang kokoh */
+.dropup { position:relative; width:100%; }
+.dropup-btn {
+  width:100%; padding:11px;
+  background:#1a1a1a; color:#C9A84C;
+  border:1px solid rgba(201,168,76,0.3);
+  font-weight:700; font-size:13px; border-radius:10px;
+  cursor:pointer; display:flex; align-items:center;
+  justify-content:center; gap:8px;
+  font-family:'Inter',Arial,sans-serif;
+}
+.dropup-content {
+  display:none; position:absolute;
+  bottom:100%; left:0; width:100%;
+  background:#111; border:2px solid rgba(201,168,76,0.5);
+  border-radius:10px; margin-bottom:8px;
+  max-height:260px; overflow-y:auto; z-index:1000;
+  box-shadow:0 -8px 30px rgba(0,0,0,0.8);
+}
+.dropup-content::-webkit-scrollbar { width:4px; }
+.dropup-content::-webkit-scrollbar-thumb { background:#C9A84C; border-radius:10px; }
+.dropup-content a {
+  color:#ccc; padding:12px 14px; text-decoration:none;
+  display:block; font-size:13px; text-align:left;
+  border-bottom:1px solid #1a1a1a;
+}
+.dropup-content a:hover { background:#1a1a1a; color:#FFD700; }
+.show-dropup { display:block !important; }
 
-    .panggung img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      border-radius: 12px;
-      box-shadow: 0 4px 25px rgba(255, 215, 0, 0.2);
-    }
+.btn-fb-sultan {
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  width:100%; padding:11px; background:#1877f2; color:#fff;
+  font-size:13px; font-weight:700; text-decoration:none; border-radius:10px;
+}
+.btn-komentar {
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  width:100%; padding:11px; background:#1a6b3a;
+  border:1px solid rgba(201,168,76,0.4);
+  color:#FFD700; font-size:13px; font-weight:700;
+  border-radius:10px; cursor:pointer;
+  font-family:'Inter',Arial,sans-serif;
+}
+.btn-komentar:active { opacity:0.8; }
 
-    .tombol-wrapper {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
-      max-width: 320px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      z-index: 999;
-      text-align: center;
-    }
-
-    .badge-sultan {
-      background: rgba(255, 0, 0, 0.85);
-      color: #fff;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 20px;
-      letter-spacing: 0.05em;
-      align-self: center;
-      box-shadow: 0 2px 8px rgba(255,0,0,0.3);
-    }
-
-    .btn-sultan {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(135deg, #c9a227, #f0c040);
-      color: #000;
-      font-weight: 700;
-      font-size: 13px;
-      text-decoration: none;
-      border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(201, 162, 39, 0.4);
-      transition: transform 0.1s;
-    }
-
-    .btn-fb-sultan {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(135deg, #1877f2, #166fe5);
-      color: #ffffff;
-      font-size: 13px;
-      font-weight: 700;
-      text-decoration: none;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
-    }
-
-    .btn-sultan:active, .btn-fb-sultan:active {
-      transform: scale(0.98);
-    }
-  </style>
+/* ── POPUP KOMENTAR FULLSCREEN ── */
+.popup-komen {
+  display:none; position:fixed; inset:0;
+  background:#0a0a0a; z-index:9999;
+  flex-direction:column; overflow:hidden;
+  width:100vw; height:100vh;
+}
+.popup-komen.show { display:flex; }
+.popup-header {
+  background:linear-gradient(135deg,#1a6b3a,#0a3a1e);
+  border-bottom:2px solid #C9A84C;
+  padding:14px 16px;
+  display:flex; align-items:center; gap:10px;
+  flex-shrink:0;
+}
+.popup-back {
+  width:36px; height:36px; border-radius:50%;
+  background:rgba(255,255,255,0.1); border:none;
+  color:#fff; font-size:18px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.popup-htitle {
+  flex:1; font-size:15px; font-weight:700; color:#FFD700;
+  font-family:'Inter',Arial,sans-serif;
+}
+.popup-iframe {
+  flex:1; width:100%; height:100%;
+  border:none; background:#0a0a0a;
+}
+.popup-loading {
+  position:absolute; inset:0; top:60px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:10px; background:#0a0a0a; color:#5a7060; font-size:13px;
+  font-family:'Inter',Arial,sans-serif;
+}
+.popup-loading.hide { display:none; }
+.spinner2 { display:inline-block; width:22px; height:22px; border:2px solid #5a7060;
+  border-top-color:#C9A84C; border-radius:50%; animation:spin2 0.8s linear infinite; }
+@keyframes spin2 { to{transform:rotate(360deg)} }
+</style>
 </head>
 <body>
 
-  <!-- AREA POSTER -->
-  <div class="panggung">
-    <img src="https://imahazzah51-max.github.io/hugoNUR3/Screenshot_2026_0713_111810.jpg" alt="Panggung Sultan">
-  </div>
+<div class="panggung">
+  <img src="https://imahazzah51-max.github.io/hugoNUR3/ALWI_grendle.png"
+       alt="Portal Alwi Kamus Indramayu"
+       onerror="this.style.display='none'">
+</div>
 
-  <!-- AREA TOMBOL BAWAH -->
-  <div class="tombol-wrapper">
-    <div class="badge-sultan">🔥 GRATIS SAMPE 30 JULI 2026 🔥</div>
+<div class="tombol-wrapper">
+  <div class="badge-sultan">✨ PORTAL INFORMASI RESMI ✨</div>
 
-    <!-- Tautan diarahkan ke android.html dengan teks akademi bersih -->
-    <a href="android.html" class="btn-sultan">🏁🎳 MASUK DI AKADEMI KAMI 🛠 🏁</a>
+  <a href="nur1_media.html" class="btn-sultan">🏁 MASUK KE HALAMAN UTAMA 📲</a>
+
+  <div class="dropup">
+    <button class="dropup-btn" onclick="toggleDropup(event)">🏛️ DAFTAR MENU NUR ▾</button>
     <div class="dropup-content" id="myDropup">
-      <a href="nur1_media.html">🏠 Nur 1 - Halaman Utama</a>
-      <a href="nur2_login.html">🔐 Nur 2 - Halaman Masuk</a>
-      <a href="nur2_raja_server.html">👑 Nur 2 - Server Utama</a>
-      <a href="nur2.adminVIDIO.html">📹 Nur 2 - Video</a>
-      <a href="nur3_keuangan_pagi.html">💰 Nur 3 - Laporan</a>
-      <a href="nur4_aset_digital.html">💎 Nur 4 - Konten Digital</a>
-      <a href="nur5_menu_utama.html">🎲 Nur 5 - Menu Aktivitas</a>
-      
-      <!-- JALUR NUR 6: RADAR DATA UTAMA -->
-      <a href="03_ADM_KEUANGAN/👑radar.html">🏦 Nur 6 - Radar Admin Data</a>[span_3](start_span)[span_3](end_span)
-      
-      <a href="nur7a.html">📹 Nur 7 - Siaran Langsung</a>[span_4](start_span)[span_4](end_span)
-      <a href="nur7_live_member.html">👥 Nur 7 - Anggota</a>
-      <a href="nur7_panggung_status.html">🔥 Nur 7 - Status</a>
-      
-      <!-- FIX JALUR NUR 8: SEKTOR GAME EMULATOR (TERHUBUNG KE INDEX CODES) -->
-      <a href="03_ADM_KEUANGAN/Nur8/index.html">🕹️ Nur 8 - Game & Sistem Emulator</a>[span_5](start_span)[span_5](end_span)
-      
-      <!-- JALUR NUR 9: BACKUP CENTER -->
-      <a href="03_ADM_KEUANGAN/Nur9/index.html">🔁 Nur 9 - Backup & Game Center</a>[span_6](start_span)[span_6](end_span)
-      
-      <a href="nur10_kamus_alwi.html">🌟 Nur 10 - Kamus</a>
+      <a href="nur1_media.html">🏠 Nur 1 — Halaman Utama</a>
+      <a href="nur2_login.html">🔐 Nur 2 — Login Sultan</a>
+      <a href="nur2_raja_server.html">👑 Nur 2 — Server Raja</a>
+      <a href="nur2.adminVIDIO.html">📹 Nur 2 — Admin Video</a>
+      <a href="nur3_keuangan_pagi.html">💰 Nur 3 — Keuangan Pagi</a>
+      <a href="nur4_aset_digital.html">💎 Nur 4 — Aset Digital</a>
+      <a href="nur5_menu_utama.html">🎲 Nur 5 — Menu Aktivitas</a>
+      <a href="03_ADM_KEUANGAN/">🏦 Nur 6 — Admin Keuangan</a>
+      <a href="nur7a_streaming.html">📹 Nur 7 — Streaming</a>
+      <a href="nur7b_live_member.html">👥 Nur 7 — Live Member</a>
+      <a href="nur7_panggung_status.html">🔥 Nur 7 — Status Panggung</a>
+      <a href="nur8_emulator.html">🕹️ Nur 8 — Emulator</a>
+      <a href="nur9/index.html">🔁 Nur 9 — Backup & Sinkron</a>
+      <a href="nur10_kamus_alwi.html">🌟 Nur 10 — Kamus Alwi</a>
     </div>
-
-    <a href="https://www.facebook.com/IndramayuClubOfficial" target="_blank" class="btn-fb-sultan">
-      <span>👥</span> FACEBOOK GROUP
-    </a>
   </div>
+
+  <button class="btn-komentar" onclick="bukaPopup()">💬 LOG KOMENTAR 7 HARI</button>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://imahazzah51-max.github.io/hugoNUR3/"
+     target="_blank" class="btn-sultan" style="background:#25D366">📲 BAGIKAN KE TEMAN</a>
+  <a href="https://www.facebook.com/share/1CxZCY8n3d/" target="_blank" class="btn-fb-sultan">
+    <span>👥</span> KOMUNITAS FACEBOOK
+  </a>
+</div>
+
+<script>
+function toggleDropup(e) {
+  e.stopPropagation();
+  document.getElementById('myDropup').classList.toggle('show-dropup');
+}
+
+// FIX: Klik di luar menu untuk menutup otomatis dropup yang sedang terbuka
+window.onclick = function(event) {
+  if (!event.target.matches('.dropup-btn')) {
+    var dropdowns = document.getElementsByClassName("dropup-content");
+    for (var i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show-dropup')) {
+        openDropdown.classList.remove('show-dropup');
+      }
+    }
+  }
+}
+</script>
+
+<!-- ═══ POPUP KOMENTAR FULLSCREEN ═══ -->
+<div class="popup-komen" id="popupKomen">
+  <div class="popup-header">
+    <button class="popup-back" onclick="tutupPopup()">←</button>
+    <div class="popup-htitle">💬 LOG KOMENTAR MEMBER</div>
+    <button class="popup-back" onclick="muatUlangFrame()" title="Muat ulang">⟳</button>
+  </div>
+
+  <div class="popup-loading" id="popupLoading">
+    <span class="spinner2"></span>
+    <span>Memuat halaman komentar...</span>
+  </div>
+
+  <iframe id="komenFrame" class="popup-iframe" src="about:blank"
+          title="Log Komentar Member" loading="lazy"
+          onload="document.getElementById('popupLoading').classList.add('hide')"></iframe>
+</div>
+
+<script>
+const GAS = 'https://script.google.com/macros/s/AKfycbx7C5dF-NksyGqI-TiJ8BvP9Tp90fNbn1LwZb9kbBl7VxNXopFnSvkmMoe7dqHc0eUSvQ/exec';
+
+function bukaPopup() {
+  document.getElementById('popupKomen').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('popupLoading').classList.remove('hide');
+  const frame = document.getElementById('komenFrame');
+  frame.src = GAS + '?t=' + Date.now();
+}
+
+function tutupPopup() {
+  document.getElementById('popupKomen').classList.remove('show');
+  document.body.style.overflow = '';
+  document.getElementById('komenFrame').src = 'about:blank';
+}
+
+function muatUlangFrame() {
+  document.getElementById('popupLoading').classList.remove('hide');
+  const frame = document.getElementById('komenFrame');
+  frame.src = GAS + '?t=' + Date.now();
+}
+</script>
 
 </body>
 </html>
+
