@@ -4,7 +4,7 @@
 LOKAL_DIR="$HOME/nama_env_anda/local_c4/03_ADM_KEUANGAN"
 
 # Menggunakan remote drive3 yang sudah terdaftar resmi di rclone Anda
-REMOTE_TARGET="drive3:03_ADM_KEUANGAN"
+REMOTE_TARGET="drive1:03_ADM_KEUANGAN"
 
 # Jalur file log langsung ditaruh di dalam folder nur1 saat ini
 LOG_FILE="$LOKAL_DIR/nur1/rclone_system.log"

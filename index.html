@@ -507,22 +507,8 @@ document.querySelectorAll('.app-item,.dock-item').forEach(el => {
   <!-- ================================================ -->
   <!--               INIT & RUNNING SYSTEM              -->
   <!-- ================================================ -->
-  <script>
-    buildDots();
-    applyWallpaper(0);
-    startWallpaperTimer();
-    buildGallery();
-
-    // Perbaikan penutupan modal & event listener yang terpotong
-    const driveModal = document.getElementById('peringatan-drive-modal');
-    if (driveModal) {
-      driveModal.addEventListener('click', function(e) {
-        if (e.target === this) {
-          tutupPeringatan();
-        }
-      });
-    }
-  </script>
+  <!-- INIT script dihapus: fungsi tidak tersedia -->
+</script>
 
 <!-- ⛑️ AGEN ALWI — INLINE, SATU KALI SAJA -->
 <script>
@@ -895,3 +881,4 @@ if (document.readyState === 'loading') { document.addEventListener('DOMContentLo
 
 </body>
 </html>
+

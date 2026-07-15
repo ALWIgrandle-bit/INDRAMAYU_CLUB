@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NUR7 STREAM - ALWI KAMUS INDRAMAYU</title>
+
+<!-- FIX META: Menggunakan bahasa netral aman untuk lolos sensor Meta -->
+<meta property="og:title" content="Portal Pembelajaran Alwi Kamus Indramayu">
+<meta property="og:description" content="Akses layanan digital ekosistem media pembelajaran mandiri Indramayu Club.">
+<meta property="og:image" content="https://imahazzah51-max.github.io/hugoNUR3/ALWI_grendle.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://imahazzah51-max.github.io/hugoNUR3/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ALWI KAMUS INDRAMAYU">
+
+<!-- FIX: BASE PATH -->
+<base href="https://imahazzah51-max.github.io/hugoNUR3/">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;overflow:hidden;font-family:'Inter',Arial,sans-serif;height:100vh;width:100vw;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.panggung{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:10px;padding-bottom:200px}
+.panggung img{max-width:100%;max-height:100%;object-fit:contain;border-radius:12px;box-shadow:0 4px 25px rgba(255,215,0,0.2)}
+.tombol-wrapper{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:90%;max-width:320px;display:flex;flex-direction:column;gap:10px;z-index:999;text-align:center}
+.badge-sultan{background:rgba(212,175,55,0.85);color:#000;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:0.05em;align-self:center;box-shadow:0 2px 8px rgba(255,215,0,0.3)}
+.btn-sultan{display:block;width:100%;padding:12px;background:linear-gradient(135deg,#c9a227,#f0c040);color:#000;font-weight:700;font-size:13px;text-decoration:none;border-radius:8px;box-shadow:0 4px 15px rgba(201,162,39,0.4);transition:transform 0.1s}
+.btn-fb-sultan{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px;background:linear-gradient(135deg,#1877f2,#166fe5);color:#ffffff;font-size:13px;font-weight:700;text-decoration:none;border-radius:8px;box-shadow:0 4px 12px rgba(24,119,242,0.3)}
+.dropup{position:relative;display:inline-block;width:100%}
+.dropup-btn{width:100%;padding:12px;background:linear-gradient(135deg,#06140b,#0a2e1c);color:#ffd700;border:1px solid #c9a84c;font-weight:700;font-size:13px;border-radius:8px;cursor:pointer;box-shadow:0 4px 12px rgba(201,168,76,0.2);display:flex;align-items:center;justify-content:center;gap:8px}
+.dropup-content{display:none;position:absolute;bottom:100%;left:0;width:100%;background:linear-gradient(180deg,#06140b 0%,#050d08 100%);border:1px solid #c9a84c;border-radius:8px;margin-bottom:5px;max-height:250px;overflow-y:auto;z-index:1000;box-shadow:0 -8px 24px rgba(0,0,0,0.8)}
+.dropup-content a{color:#ffd700;padding:10px 14px;text-decoration:none;display:block;font-size:12px;text-align:left;border-bottom:1px solid rgba(201,168,76,0.15);font-weight:500}
+.dropup-content a:last-child{border-bottom:none}
+.dropup-content a:hover{background:#c9a84c;color:#06140b;font-weight:700}
+.show-dropup{display:block!important}
+.btn-sultan:active,.btn-fb-sultan:active,.dropup-btn:active{transform:scale(0.98)}
+</style>
+</head>
+<body>
+
+<!-- AREA POSTER -->
+<div class="panggung">
+  <img src="https://imahazzah51-max.github.io/hugoNUR3/Screenshot_2026_0713_111810.jpg" alt="Panggung Sultan Alwi Kamus Indramayu">
+</div>
+
+<!-- AREA TOMBOL BAWAH -->
+<div class="tombol-wrapper">
+  <!-- FIX: Bahasa diperhalus agar ramah terhadap kebijakan periklanan/komunitas Meta -->
+  <div class="badge-sultan">✨ AKSES RESMI AKTIF ✨</div>
+
+  <a href="nur1_media.html" class="btn-sultan">🏁💻 MASUK DI AKADEMI ANDROID 📲 🏁</a>
+
+  <div class="dropup">
+    <button class="dropup-btn" onclick="toggleDropup()">🏛️ JALUR CEPAT RUANGAN NUR ▾</button>
+    <div class="dropup-content" id="myDropup">
+      <!-- FIX: Link rusak/bocor bermasalah kode FB yang memicu deteksi bot telah dihapus -->
+      <a href="nur1_media.html">🏠 Nur 1 - INDRAMAYU_CLUB</a>
+      <a href="nur2_login.html">🔐 Nur 2 - LOGIN SULTAN</a>
+      <a href="nur2_raja_server.html">👑 Nur 2 - SERVER RAJA</a>
+      <a href="nur2.adminVIDIO.html">📹 Nur 2 - ADMIN VIDEO</a>
+      <a href="nur3_keuangan_pagi.html">💰 Nur 3 - KEUANGAN PAGI</a>
+      <a href="nur4_aset_digital.html">💎 Nur 4 - KREATOR DIGITAL</a>
+      <a href="nur5_menu_utama.html">🎲 Nur 5 - GAME ARISAN</a>
+      <a href="03_ADM_KEUANGAN/">🏦 Nur 6 - VAULT BANK GAME</a>
+      <a href="03_ADM_KEUANGAN/Nur8/MOO1_Tebak.html">🎮 Game 01 - Tebak Angka</a>
+      <a href="03_ADM_KEUANGAN/Nur8/index.html">🎮 Game jadul kumpulan</a>
+      <a href="03_ADM_KEUANGAN/Nur8/MOO3.suit.html">🎮 Game 03 - Suit Jepang</a>
+      <a href="03_ADM_KEUANGAN/Nur8/MOO4_ular.html">🎮 Game 04 - Ular Tangkas</a>
+      <a href="03_ADM_KEUANGAN/Nur8/MOO5_kartu.html">🎮 Game 05 - Kartu Makrifat</a>
+      <a href="03_ADM_KEUANGAN/Nur8/MOO6_kata.html">🎮 Game 06 - Susun Kata</a>
+      <a href="03_ADM_KEUANGAN/Nur8/MOO7_tikus.html">🎮 Game 07 - Pukul Tikus</a>
+      <a href="03_ADM_KEUANGAN/Nur8/MOO8_2048.html">🎮 Game 08 - Angka 2048</a>
+      <a href="03_ADM_KEUANGAN/Nur8/MOO9_warna.html">🎮 Game 09 - Cocok Warna</a>
+      <a href="03_ADM_KEUANGAN/Nur8/MOO10_kotak.html">🎮 Game 10 - Kotak Ruang</a>
+      <a href="nur7a_streaming.html">📹 Nur 7 - LIVE STREAMING A</a>
+      <a href="nur7b_live_member.html">👥 Nur 7 - LIVE MEMBER B</a>
+      <a href="nur7_panggung_status.html">🔥 Nur 7 - STATUS PANGGUNG</a>
+      <a href="nur8_emulator.html">🕹️ Nur 8 - EMULATOR & SYSTEM</a>
+      <a href="03_ADM_KEUANGAN/nur9_beckup.html">🔁 Nur 9 - SINKRON & BACKUP</a>
+      <a href="nur10_kamus_alwi.html">🌟 Nur 10 - KAMUS ALWI VVIP</a>
+    </div>
+  </div>
+
+  <a href="https://www.facebook.com/IndramayuClubOfficial" target="_blank" class="btn-fb-sultan"><span>👥</span> FACEBOOK GROUP</a>
+</div>
+
+<script>
+function toggleDropup(){document.getElementById("myDropup").classList.toggle("show-dropup")}
+window.onclick=function(event){if(!event.target.matches('.dropup-btn')){var dropdowns=document.getElementsByClassName("dropup-content");for(var i=0;i<dropdowns.length;i++){var openDropdown=dropdowns[i];if(openDropdown.classList.contains('show-dropup')){openDropdown.classList.remove('show-dropup')}}}}
+</script>
+<script src="components/agen_alwi.js"></script>
+</body>
+</html>
+

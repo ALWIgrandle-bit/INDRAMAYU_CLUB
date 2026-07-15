@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asah Memori - Nur 5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  :root{--mustard:#e8a838;--burnt:#cf5c26;--avocado:#6f8c3e;--cream:#f4e8cf;--brown:#3a2317;--teal:#237a7a;}
+  *{box-sizing:border-box;}
+  body{margin:0;min-height:100vh;background:repeating-conic-gradient(from 0deg,var(--mustard) 0deg 10deg,var(--burnt) 10deg 20deg);background-attachment:fixed;font-family:'Special Elite',monospace;color:var(--brown);display:flex;flex-direction:column;align-items:center;padding:20px 14px 60px;}
+  .frame{width:100%;max-width:420px;background:var(--cream);border:6px solid var(--brown);border-radius:26px;padding:22px 18px 30px;box-shadow:0 0 0 6px var(--mustard),0 12px 30px rgba(0,0,0,.5);text-align:center;}
+  h1{font-family:'Bungee',cursive;font-size:22px;margin:0 0 4px;color:var(--burnt);text-shadow:3px 3px 0 var(--avocado);text-transform:uppercase;}
+  .sub{font-size:11px;color:var(--teal);margin-bottom:16px;letter-spacing:2px;text-transform:uppercase;font-weight:bold;}
+  .grid{display:grid;grid-template-columns:repeat(4,64px);gap:8px;justify-content:center;margin-bottom:14px;}
+  .card{width:64px;height:64px;background:var(--burnt);border:3px solid var(--brown);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;box-shadow:0 3px 0 var(--brown);}
+  .card.flipped{background:#fff;}
+  .card.matched{background:var(--avocado);opacity:0.6;cursor:default;}
+  #status{font-weight:bold;font-size:15px;margin:10px 0;color:var(--burnt);min-height:22px;}
+  button.action{font-family:'Bungee',cursive;font-size:13px;background:var(--avocado);color:var(--cream);border:3px solid var(--brown);border-radius:20px;padding:12px 22px;cursor:pointer;box-shadow:0 4px 0 var(--brown);margin-top:6px;}
+  button.action:active{transform:translateY(4px);box-shadow:0 0 0 var(--brown);}
+  .back-link{display:inline-block;font-family:'Bungee',cursive;font-size:12px;color:var(--brown);background:var(--cream);border:3px solid var(--brown);border-radius:20px;padding:10px 18px;text-decoration:none;margin-top:16px;box-shadow:0 4px 0 var(--brown);}
+  .back-link:active{transform:translateY(4px);box-shadow:0 0 0 var(--brown);}
+</style>
+</head>
+<body>
+<div class="frame">
+  <h1>🧠 Asah Memori</h1>
+  <div class="sub">Langkah: <span id="moves">0</span></div>
+  <div class="grid" id="grid"></div>
+  <div id="status">Cari semua pasangan kartunya!</div>
+  <button class="action" onclick="resetGame()">🔄 ULANG</button>
+  <br>
+  <a class="back-link" href="../index.html">⬅ KEMBALI KE PORTAL</a>
+</div>
+<script>
+  const symbols = ['🌻','✌️','🎸','🕶️','🚐','☮️','🎷','🌈'];
+  const gridEl = document.getElementById('grid');
+  let cards, flipped, matched, moves, locked;
+
+  function resetGame(){
+    let deck = [...symbols, ...symbols];
+    for(let i = deck.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [deck[i], deck[j]] = [deck[j], deck[i]];
+    }
+    cards = deck; flipped = []; matched = []; moves = 0; locked = false;
+    document.getElementById('moves').textContent = '0';
+    document.getElementById('status').textContent = 'Cari semua pasangan kartunya!';
+    render();
+  }
+
+  function render(){
+    gridEl.innerHTML = '';
+    cards.forEach((sym, i) => {
+      const c = document.createElement('div');
+      const isUp = flipped.includes(i) || matched.includes(i);
+      c.className = 'card' + (isUp ? ' flipped' : '') + (matched.includes(i) ? ' matched' : '');
+      c.textContent = isUp ? sym : '★';
+      c.onclick = () => flipCard(i);
+      gridEl.appendChild(c);
+    });
+  }
+
+  function flipCard(i){
+    if(locked || flipped.includes(i) || matched.includes(i)) return;
+    flipped.push(i);
+    render();
+    if(flipped.length === 2){
+      moves++;
+      document.getElementById('moves').textContent = moves;
+      locked = true;
+      const [a,b] = flipped;
+      if(cards[a] === cards[b]){
+        matched.push(a,b);
+        flipped = [];
+        locked = false;
+        render();
+        if(matched.length === cards.length){
+          document.getElementById('status').textContent = '🎉 Selesai dalam ' + moves + ' langkah!';
+        }
+      } else {
+        setTimeout(() => { flipped = []; locked = false; render(); }, 700);
+      }
+    }
+  }
+
+  resetGame();
+</script>
+<script src="components/agen_alwi.js"></script>
+</body>
+</html>
+

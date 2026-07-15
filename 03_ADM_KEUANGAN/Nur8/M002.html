@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tic Tac Toe - Nur 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  :root{--mustard:#e8a838;--burnt:#cf5c26;--avocado:#6f8c3e;--cream:#f4e8cf;--brown:#3a2317;--teal:#237a7a;}
+  *{box-sizing:border-box;}
+  body{margin:0;min-height:100vh;background:repeating-conic-gradient(from 0deg,var(--mustard) 0deg 10deg,var(--burnt) 10deg 20deg);background-attachment:fixed;font-family:'Special Elite',monospace;color:var(--brown);display:flex;flex-direction:column;align-items:center;padding:20px 14px 60px;}
+  .frame{width:100%;max-width:420px;background:var(--cream);border:6px solid var(--brown);border-radius:26px;padding:22px 18px 30px;box-shadow:0 0 0 6px var(--mustard),0 12px 30px rgba(0,0,0,.5);text-align:center;}
+  h1{font-family:'Bungee',cursive;font-size:22px;margin:0 0 4px;color:var(--burnt);text-shadow:3px 3px 0 var(--avocado);text-transform:uppercase;}
+  .sub{font-size:11px;color:var(--teal);margin-bottom:20px;letter-spacing:2px;text-transform:uppercase;font-weight:bold;}
+  .board{display:grid;grid-template-columns:repeat(3,80px);grid-template-rows:repeat(3,80px);gap:8px;margin:0 auto 18px;justify-content:center;}
+  .cell{background:#fff;border:3px solid var(--brown);border-radius:12px;font-family:'Bungee',cursive;font-size:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 0 var(--brown);}
+  .cell:active{transform:translateY(4px);box-shadow:0 0 0 var(--brown);}
+  .cell.x{color:var(--burnt);}
+  .cell.o{color:var(--teal);}
+  #status{font-weight:bold;font-size:16px;margin:10px 0;color:var(--burnt);min-height:24px;}
+  button.action{font-family:'Bungee',cursive;font-size:13px;background:var(--avocado);color:var(--cream);border:3px solid var(--brown);border-radius:20px;padding:12px 22px;cursor:pointer;box-shadow:0 4px 0 var(--brown);margin-top:8px;}
+  button.action:active{transform:translateY(4px);box-shadow:0 0 0 var(--brown);}
+  .back-link{display:inline-block;font-family:'Bungee',cursive;font-size:12px;color:var(--brown);background:var(--cream);border:3px solid var(--brown);border-radius:20px;padding:10px 18px;text-decoration:none;margin-top:18px;box-shadow:0 4px 0 var(--brown);}
+  .back-link:active{transform:translateY(4px);box-shadow:0 0 0 var(--brown);}
+</style>
+</head>
+<body>
+<div class="frame">
+  <h1>❌⭕ Tic Tac Toe</h1>
+  <div class="sub">Kamu (X) vs Komputer (O)</div>
+  <div class="board" id="board"></div>
+  <div id="status">Giliran kamu, jalan!</div>
+  <button class="action" onclick="resetGame()">🔄 MAIN LAGI</button>
+  <br>
+  <a class="back-link" href="../index.html">⬅ KEMBALI KE PORTAL</a>
+</div>
+<script>
+  let board, gameOver;
+  const boardEl = document.getElementById('board');
+  const statusEl = document.getElementById('status');
+  const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+  function resetGame(){
+    board = Array(9).fill(null);
+    gameOver = false;
+    statusEl.textContent = 'Giliran kamu, jalan!';
+    render();
+  }
+
+  function render(){
+    boardEl.innerHTML = '';
+    board.forEach((v, i) => {
+      const c = document.createElement('div');
+      c.className = 'cell' + (v === 'X' ? ' x' : v === 'O' ? ' o' : '');
+      c.textContent = v || '';
+      c.onclick = () => playerMove(i);
+      boardEl.appendChild(c);
+    });
+  }
+
+  function checkWinner(b){
+    for(const [a,bb,c] of wins){
+      if(b[a] && b[a] === b[bb] && b[a] === b[c]) return b[a];
+    }
+    if(b.every(x => x)) return 'draw';
+    return null;
+  }
+
+  function playerMove(i){
+    if(gameOver || board[i]) return;
+    board[i] = 'X';
+    render();
+    let w = checkWinner(board);
+    if(w) return endGame(w);
+    statusEl.textContent = 'Komputer mikir...';
+    setTimeout(computerMove, 400);
+  }
+
+  function computerMove(){
+    if(gameOver) return;
+    let best = -Infinity, move = -1;
+    for(let i=0;i<9;i++){
+      if(!board[i]){
+        board[i] = 'O';
+        let score = minimax(board, 0, false);
+        board[i] = null;
+        if(score > best){ best = score; move = i; }
+      }
+    }
+    if(move !== -1) board[move] = 'O';
+    render();
+    let w = checkWinner(board);
+    if(w) return endGame(w);
+    statusEl.textContent = 'Giliran kamu, jalan!';
+  }
+
+  function minimax(b, depth, isMax){
+    const w = checkWinner(b);
+    if(w === 'O') return 10 - depth;
+    if(w === 'X') return depth - 10;
+    if(w === 'draw') return 0;
+    if(isMax){
+      let best = -Infinity;
+      for(let i=0;i<9;i++) if(!b[i]){ b[i]='O'; best = Math.max(best, minimax(b, depth+1, false)); b[i]=null; }
+      return best;
+    } else {
+      let best = Infinity;
+      for(let i=0;i<9;i++) if(!b[i]){ b[i]='X'; best = Math.min(best, minimax(b, depth+1, true)); b[i]=null; }
+      return best;
+    }
+  }
+
+  function endGame(w){
+    gameOver = true;
+    if(w === 'draw') statusEl.textContent = '🤝 Seri! Adu jago lagi yuk.';
+    else if(w === 'X') statusEl.textContent = '🎉 Kamu menang, keren!';
+    else statusEl.textContent = '😅 Komputer menang, coba lagi!';
+  }
+
+  resetGame();
+</script>
+<script src="components/agen_alwi.js"></script>
+</body>
+</html>
+

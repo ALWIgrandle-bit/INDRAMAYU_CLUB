@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tebak Kata - Nur 6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  :root{--mustard:#e8a838;--burnt:#cf5c26;--avocado:#6f8c3e;--cream:#f4e8cf;--brown:#3a2317;--teal:#237a7a;}
+  *{box-sizing:border-box;}
+  body{margin:0;min-height:100vh;background:repeating-conic-gradient(from 0deg,var(--mustard) 0deg 10deg,var(--burnt) 10deg 20deg);background-attachment:fixed;font-family:'Special Elite',monospace;color:var(--brown);display:flex;flex-direction:column;align-items:center;padding:20px 14px 60px;}
+  .frame{width:100%;max-width:420px;background:var(--cream);border:6px solid var(--brown);border-radius:26px;padding:22px 18px 30px;box-shadow:0 0 0 6px var(--mustard),0 12px 30px rgba(0,0,0,.5);text-align:center;}
+  h1{font-family:'Bungee',cursive;font-size:22px;margin:0 0 4px;color:var(--burnt);text-shadow:3px 3px 0 var(--avocado);text-transform:uppercase;}
+  .sub{font-size:11px;color:var(--teal);margin-bottom:16px;letter-spacing:2px;text-transform:uppercase;font-weight:bold;}
+  #hint{font-size:12px;color:var(--teal);margin-bottom:10px;font-style:italic;}
+  #word{font-family:'Bungee',cursive;font-size:26px;letter-spacing:6px;margin:14px 0;color:var(--burnt);word-break:break-all;}
+  #lives{font-size:15px;margin-bottom:10px;}
+  .keyboard{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;max-width:380px;margin:0 auto 12px;}
+  .key{width:30px;height:36px;background:#fff;border:2px solid var(--brown);border-radius:6px;font-family:'Special Elite',monospace;font-size:14px;cursor:pointer;box-shadow:0 3px 0 var(--brown);}
+  .key:active{transform:translateY(3px);box-shadow:0 0 0 var(--brown);}
+  .key.used{background:#ccc;opacity:0.5;cursor:default;}
+  .key.correct{background:var(--avocado);color:#fff;}
+  .key.wrong{background:var(--burnt);color:#fff;}
+  #status{font-weight:bold;font-size:15px;margin:10px 0;color:var(--burnt);min-height:22px;}
+  button.action{font-family:'Bungee',cursive;font-size:13px;background:var(--avocado);color:var(--cream);border:3px solid var(--brown);border-radius:20px;padding:12px 22px;cursor:pointer;box-shadow:0 4px 0 var(--brown);margin-top:6px;}
+  button.action:active{transform:translateY(4px);box-shadow:0 0 0 var(--brown);}
+  .back-link{display:inline-block;font-family:'Bungee',cursive;font-size:12px;color:var(--brown);background:var(--cream);border:3px solid var(--brown);border-radius:20px;padding:10px 18px;text-decoration:none;margin-top:16px;box-shadow:0 4px 0 var(--brown);}
+  .back-link:active{transform:translateY(4px);box-shadow:0 0 0 var(--brown);}
+</style>
+</head>
+<body>
+<div class="frame">
+  <h1>🔤 Tebak Kata</h1>
+  <div class="sub">Pecahkan Misterinya!</div>
+  <div id="hint">Kategori: -</div>
+  <div id="lives">❤️❤️❤️❤️❤️❤️</div>
+  <div id="word">_ _ _</div>
+  <div class="keyboard" id="keyboard"></div>
+  <div id="status">Pilih huruf buat mulai nebak!</div>
+  <button class="action" onclick="resetGame()">🔄 KATA BARU</button>
+  <br>
+  <a class="back-link" href="../index.html">⬅ KEMBALI KE PORTAL</a>
+</div>
+<script>
+  const words = [
+    {word: 'GITAR', hint: 'Kategori: Alat Musik'},
+    {word: 'RADIO', hint: 'Kategori: Elektronik Jadul'},
+    {word: 'VESPA', hint: 'Kategori: Kendaraan Klasik'},
+    {word: 'PIRINGAN', hint: 'Kategori: Media Musik'},
+    {word: 'KACAMATA', hint: 'Kategori: Aksesoris'},
+    {word: 'DISKOTIK', hint: 'Kategori: Tempat Joget'},
+    {word: 'SANDAL', hint: 'Kategori: Alas Kaki'},
+    {word: 'JAKET', hint: 'Kategori: Pakaian'},
+  ];
+  let target, guessed, wrongCount, over;
+  const maxLives = 6;
+
+  function resetGame(){
+    const pick = words[Math.floor(Math.random() * words.length)];
+    target = pick.word;
+    document.getElementById('hint').textContent = pick.hint;
+    guessed = new Set();
+    wrongCount = 0;
+    over = false;
+    document.getElementById('status').textContent = 'Pilih huruf buat mulai nebak!';
+    renderWord();
+    renderLives();
+    renderKeyboard();
+  }
+
+  function renderWord(){
+    document.getElementById('word').textContent = target.split('').map(l => guessed.has(l) ? l : '_').join(' ');
+  }
+
+  function renderLives(){
+    document.getElementById('lives').textContent = '❤️'.repeat(maxLives - wrongCount) + '🖤'.repeat(wrongCount);
+  }
+
+  function renderKeyboard(){
+    const kb = document.getElementById('keyboard');
+    kb.innerHTML = '';
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(letter => {
+      const b = document.createElement('button');
+      b.className = 'key';
+      b.textContent = letter;
+      b.onclick = () => guess(letter, b);
+      kb.appendChild(b);
+    });
+  }
+
+  function guess(letter, btn){
+    if(over || guessed.has(letter)) return;
+    guessed.add(letter);
+    btn.classList.add('used');
+    if(target.includes(letter)){
+      btn.classList.add('correct');
+    } else {
+      btn.classList.add('wrong');
+      wrongCount++;
+      renderLives();
+    }
+    renderWord();
+    checkEnd();
+  }
+
+  function checkEnd(){
+    const solved = target.split('').every(l => guessed.has(l));
+    if(solved){
+      over = true;
+      document.getElementById('status').textContent = '🎉 Yes! Jawabannya: ' + target;
+    } else if(wrongCount >= maxLives){
+      over = true;
+      document.getElementById('status').textContent = '💀 Kalah! Jawabannya: ' + target;
+      document.getElementById('word').textContent = target.split('').join(' ');
+    }
+  }
+
+  resetGame();
+</script>
+<script src="components/agen_alwi.js"></script>
+</body>
+</html>
+

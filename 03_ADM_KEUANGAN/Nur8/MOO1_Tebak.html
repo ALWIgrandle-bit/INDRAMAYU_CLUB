@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tebak Angka Groovy - Nur 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  :root{--mustard:#e8a838;--burnt:#cf5c26;--avocado:#6f8c3e;--cream:#f4e8cf;--brown:#3a2317;--teal:#237a7a;}
+  *{box-sizing:border-box;}
+  body{margin:0;min-height:100vh;background:repeating-conic-gradient(from 0deg,var(--mustard) 0deg 10deg,var(--burnt) 10deg 20deg);background-attachment:fixed;font-family:'Special Elite',monospace;color:var(--brown);display:flex;flex-direction:column;align-items:center;padding:20px 14px 60px;}
+  .frame{width:100%;max-width:420px;background:var(--cream);border:6px solid var(--brown);border-radius:26px;padding:22px 18px 30px;box-shadow:0 0 0 6px var(--mustard),0 12px 30px rgba(0,0,0,.5);text-align:center;}
+  h1{font-family:'Bungee',cursive;font-size:22px;margin:0 0 4px;color:var(--burnt);text-shadow:3px 3px 0 var(--avocado);text-transform:uppercase;}
+  .sub{font-size:11px;color:var(--teal);margin-bottom:20px;letter-spacing:2px;text-transform:uppercase;font-weight:bold;}
+  .dial{width:180px;height:180px;margin:10px auto 20px;border-radius:50%;background:radial-gradient(circle at 50% 50%, var(--mustard) 0 30%, var(--burnt) 30% 60%, var(--avocado) 60% 100%);border:5px solid var(--brown);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 0 var(--brown);}
+  #guessDisplay{font-family:'Bungee',cursive;font-size:40px;color:var(--cream);text-shadow:2px 2px 0 var(--brown);}
+  input{font-family:'Special Elite',monospace;font-size:18px;padding:10px;width:120px;text-align:center;border:3px solid var(--brown);border-radius:10px;margin-bottom:10px;}
+  button{font-family:'Bungee',cursive;font-size:13px;background:var(--avocado);color:var(--cream);border:3px solid var(--brown);border-radius:20px;padding:12px 22px;cursor:pointer;box-shadow:0 4px 0 var(--brown);margin:4px;}
+  button:active{transform:translateY(4px);box-shadow:0 0 0 var(--brown);}
+  #status{font-weight:bold;font-size:16px;margin:12px 0;color:var(--burnt);min-height:24px;}
+  #attempts{font-size:12px;color:var(--teal);}
+  .back-link{display:inline-block;font-family:'Bungee',cursive;font-size:12px;color:var(--brown);background:var(--cream);border:3px solid var(--brown);border-radius:20px;padding:10px 18px;text-decoration:none;margin-top:18px;box-shadow:0 4px 0 var(--brown);}
+  .back-link:active{transform:translateY(4px);box-shadow:0 0 0 var(--brown);}
+</style>
+</head>
+<body>
+<div class="frame">
+  <h1>✌️ Tebak Angka Groovy</h1>
+  <div class="sub">Cari Angka Rahasia 1-100</div>
+  <div class="dial"><div id="guessDisplay">?</div></div>
+  <div id="status">Ayo tebak, cyy! Angkanya antara 1 sampai 100.</div>
+  <div id="attempts">Percobaan: 0</div>
+  <br>
+  <input type="number" id="guessInput" min="1" max="100" placeholder="Angka...">
+  <br>
+  <button onclick="checkGuess()">🎯 TEBAK</button>
+  <button onclick="resetGame()">🔄 ULANG</button>
+  <br>
+  <a class="back-link" href="../index.html">⬅ KEMBALI KE PORTAL</a>
+</div>
+<script>
+  let target, tries, over;
+  function resetGame(){
+    target = Math.floor(Math.random()*100)+1;
+    tries = 0; over = false;
+    document.getElementById('status').textContent = 'Ayo tebak, cyy! Angkanya antara 1 sampai 100.';
+    document.getElementById('attempts').textContent = 'Percobaan: 0';
+    document.getElementById('guessDisplay').textContent = '?';
+    document.getElementById('guessInput').value = '';
+  }
+  function checkGuess(){
+    if(over) return;
+    const val = parseInt(document.getElementById('guessInput').value);
+    if(isNaN(val) || val < 1 || val > 100){
+      document.getElementById('status').textContent = 'Masukin angka 1-100 dulu, dong!';
+      return;
+    }
+    tries++;
+    document.getElementById('guessDisplay').textContent = val;
+    document.getElementById('attempts').textContent = 'Percobaan: ' + tries;
+    if(val === target){
+      document.getElementById('status').textContent = '🎉 Kena! Angkanya ' + target + ' dalam ' + tries + ' kali coba!';
+      over = true;
+    } else if(val < target){
+      document.getElementById('status').textContent = '📈 Naik dikit lagi, cari yang lebih besar!';
+    } else {
+      document.getElementById('status').textContent = '📉 Kegedean, coba angka lebih kecil!';
+    }
+  }
+  document.getElementById('guessInput').addEventListener('keypress', e => { if(e.key === 'Enter') checkGuess(); });
+  resetGame();
+</script>
+<script src="components/agen_alwi.js"></script>
+</body>
+</html>
+
