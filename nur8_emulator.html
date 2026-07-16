@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -18,7 +18,7 @@
             background: var(--hitam);
             color: var(--emas);
             overflow-x: hidden;
-            padding-bottom: 80px; /* Ditambah agar tidak tertutup footer */
+            padding-bottom: 80px;
         }
 
         /* --- HEADER --- */
@@ -235,12 +235,19 @@
     </div>
 </div>
 
+<!-- LINK PORTAL LANGSUNG -->
+<div style="text-align: center; margin: 15px 0;">
+    <a href="03_ADM_KEUANGAN/Nur8/index.html" style="color: #ffcc00; text-decoration: none; font-weight: bold; font-size: 14px; border: 1px solid #ffcc00; padding: 8px 15px; border-radius: 5px; background: rgba(255, 204, 0, 0.1);">
+        🕹️ MASUK LANGSUNG: Nur 8 — Emulator & Game Center
+    </a>
+</div>
+
 <div class="judul-section">PILIH TINGKAT PERMAINAN</div>
 
 <!-- SELEKSI TINGKAT LEVEL (GRID) -->
 <div class="grid-container">
     <!-- ROW 1 -->
-    <div class="card-container">
+    <div class="card-container" onclick="menujuArena()">
         <div class="card-inner">
             <div class="card-front">
                 <div class="level-badge lvl-easy">LVL 1: EASY</div>
@@ -254,7 +261,7 @@
         </div>
     </div>
 
-    <div class="card-container">
+    <div class="card-container" onclick="window.location.href='nur1_media.html'">
         <div class="card-inner">
             <div class="card-front">
                 <div class="level-badge lvl-easy">LVL 1: EASY</div>
@@ -268,7 +275,7 @@
         </div>
     </div>
 
-    <div class="card-container">
+    <div class="card-container" onclick="menujuArena()">
         <div class="card-inner">
             <div class="card-front">
                 <div class="level-badge lvl-easy">LVL 1: EASY</div>
@@ -283,7 +290,7 @@
     </div>
 
     <!-- ROW 2 -->
-    <div class="card-container">
+    <div class="card-container" onclick="alert('Menuju Ruang Olah Rasa Spiritual...')">
         <div class="card-inner">
             <div class="card-front">
                 <div class="level-badge lvl-med">LVL 2: MEDIUM</div>
@@ -297,7 +304,7 @@
         </div>
     </div>
 
-    <div class="card-container">
+    <div class="card-container" onclick="alert('Membuka Berkas Keuangan Toko...')">
         <div class="card-inner">
             <div class="card-front">
                 <div class="level-badge lvl-med">LVL 2: MEDIUM</div>
@@ -311,7 +318,7 @@
         </div>
     </div>
 
-    <div class="card-container">
+    <div class="card-container" onclick="alert('Pintu Seleksi Bakat Terbuka...')">
         <div class="card-inner">
             <div class="card-front">
                 <div class="level-badge lvl-med">LVL 2: MEDIUM</div>
@@ -326,7 +333,7 @@
     </div>
 
     <!-- ROW 3 -->
-    <div class="card-container">
+    <div class="card-container" onclick="alert('Mengakses Kas Bank Pusat 5%...')">
         <div class="card-inner">
             <div class="card-front">
                 <div class="level-badge lvl-hard">LVL 3: HARD</div>
@@ -340,7 +347,7 @@
         </div>
     </div>
 
-    <div class="card-container">
+    <div class="card-container" onclick="menujuArena()">
         <div class="card-inner">
             <div class="card-front">
                 <div class="level-badge lvl-hard">LVL 3: HARD</div>
@@ -354,7 +361,7 @@
         </div>
     </div>
 
-    <div class="card-container">
+    <div class="card-container" onclick="alert('Masuk ke Pengaman Data...')">
         <div class="card-inner">
             <div class="card-front">
                 <div class="level-badge lvl-hard">LVL 3: HARD</div>
@@ -369,7 +376,7 @@
     </div>
 
     <!-- BOSS LEVEL (FULL WIDTH GRID) -->
-    <div class="card-container special-ops" style="grid-column: span 3;">
+    <div class="card-container special-ops" style="grid-column: span 3;" onclick="alert('Membuka Penjaga Gerbang Mubin & Kesatria!')">
         <div class="card-inner">
             <div class="card-front">
                 <div class="level-badge lvl-hard" style="color:red; border:1px solid red;">☠️ BOSS LEVEL</div>
@@ -402,16 +409,17 @@
 
 <!-- NAVIGASI TOMBOL -->
 <div class="sirkuit-navigasi">
-    <button onclick="window.location.href="nur1_media.html'" class="btn-nav"style="background-color: #e74c3c; margin-right: 10px;">
-        ⬅️ BACK (celenganmember.html)
-    </button>
-    <button onclick="window.location.href='ur10_kamus_alwi.html'" class="btn-nav" style="background-color: #2ecc71;">
-        NEXT (10_kamus_alwi.html) ➡️
+    <button onclick="window.location.href='index.html'" class="btn-nav" style="background-color: #e74c3c;">
+        ⬅️ KEMBALI (Portal Utama)
     </button>
 </div>
+
+<!-- JAVASCRIPT KONTROL UTAMA -->
+<script>
     function menujuArena() {
         alert('Menghubungkan Kabel AI Satria... Jalur VVIP Terbuka!');
-        window.location.href = "https://indramayuclub.uptodown.com";
+        // Jalur langsung mengarah ke index.html di dalam folder Nur8
+        window.location.href = "03_ADM_KEUANGAN/Nur8/index.html";
     }
 
     function kirimRealTime() {
@@ -419,7 +427,7 @@
         const display = document.getElementById('display-komentar');
 
         if(input.value.trim() !== "") {
-            // Validasi kata kunci khusus keuangan
+            // Validasi kata kunci keuangan
             if (input.value.toLowerCase().match(/saldo|transfer|duit|bayar/)) {
                 alert("🚨 AI Kesatria: Urusan uang sakral! Hubungi Bendahara.");
                 window.open("https://wa.me/6281386517352", "_blank");

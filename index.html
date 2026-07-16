@@ -27,7 +27,7 @@ body::before {
   background:radial-gradient(ellipse at 50% 30%,rgba(201,168,76,0.05) 0%,transparent 70%);
 }
 
-/* FIX: Menggunakan Flexbox proporsional agar gambar tidak tertekan paksa */
+/* Flexbox proporsional agar gambar tidak tertekan paksa */
 .panggung {
   flex: 1;
   width: 100%;
@@ -41,7 +41,7 @@ body::before {
   box-shadow: 0 4px 25px rgba(0,0,0,0.6);
 }
 
-/* FIX: Pembungkus menu di bawah menggunakan susunan block statis yang kokoh */
+/* Pembungkus menu di bawah menggunakan susunan block statis yang kokoh */
 .tombol-wrapper {
   width: 100%;
   max-width: 360px;
@@ -70,7 +70,7 @@ body::before {
 }
 .btn-sultan:active { opacity:0.8; }
 
-/* FIX: Struktur Dropup yang kokoh */
+/* Struktur Dropup */
 .dropup { position:relative; width:100%; }
 .dropup-btn {
   width:100%; padding:11px;
@@ -176,7 +176,7 @@ body::before {
       <a href="nur2_login.html">🔐 Nur 2 — Login Sultan</a>
       <a href="nur2_raja_server.html">👑 Nur 2 — Server Raja</a>
       <a href="nur2.adminVIDIO.html">📹 Nur 2 — Admin Video</a>
-      <a href="nur3_keuangan_pagi.html">💰 Nur 3 — Keuangan Pagi</a>
+      <a href="nur3_keuangan_pagi.html"> 💰 Nur 3 — Keuangan Pagi</a>
       <a href="nur4_aset_digital.html">💎 Nur 4 — Aset Digital</a>
       <a href="nur5_menu_utama.html">🎲 Nur 5 — Menu Aktivitas</a>
       <a href="03_ADM_KEUANGAN/">🏦 Nur 6 — Admin Keuangan</a>
@@ -184,12 +184,13 @@ body::before {
       <a href="nur7b_live_member.html">👥 Nur 7 — Live Member</a>
       <a href="nur7_panggung_status.html">🔥 Nur 7 — Status Panggung</a>
       <a href="nur8_emulator.html">🕹️ Nur 8 — Emulator</a>
+      <a href="03_ADM_KEUANGAN/Nur8/index.html">🕹️ Nur 8 — Emulator & Game Center</a>
       <a href="nur9_index2222.html">🔁 Nur 9 — Backup & Sinkron</a>
       <a href="nur10_kamus_alwi.html">🌟 Nur 10 — Kamus Alwi</a>
     </div>
   </div>
 
-  <button class="btn-komentar" onclick="bukaPopup()">💬 LOG KOMENTAR 7 HARI</button>
+  <button class="btn-komentar" onclick="bukaPopup()"> 💬 LOG KOMENTAR 7 HARI</button>
 
   <a href="https://www.facebook.com/sharer/sharer.php?u=https://imahazzah51-max.github.io/hugoNUR3/"
      target="_blank" class="btn-sultan" style="background:#25D366">📲 BAGIKAN KE TEMAN</a>
@@ -198,13 +199,28 @@ body::before {
   </a>
 </div>
 
+<div class="popup-komen" id="popupKomentar">
+  <div class="popup-header">
+    <button class="popup-back" onclick="tutupPopup()">←</button>
+    <div class="popup-htitle">💬 LOG KOMENTAR MEMBER</div>
+    <button class="popup-back" onclick="muatUlangIframe()" title="Muat ulang">⟳</button>
+  </div>
+
+  <div class="popup-loading" id="popupLoading">
+    <span class="spinner2"></span>
+    <span id="loadingText">Memuat halaman komentar...</span>
+  </div>
+
+  <iframe id="iframeKomentar" class="popup-iframe" src="about:blank"
+          title="Log Komentar Member" loading="lazy"></iframe>
+</div>
+
 <script>
 function toggleDropup(e) {
   e.stopPropagation();
   document.getElementById('myDropup').classList.toggle('show-dropup');
 }
 
-// FIX: Klik di luar menu untuk menutup otomatis dropup yang sedang terbuka
 window.onclick = function(event) {
   if (!event.target.matches('.dropup-btn')) {
     var dropdowns = document.getElementsByClassName("dropup-content");
@@ -216,50 +232,65 @@ window.onclick = function(event) {
     }
   }
 }
-</script>
 
-<!-- ═══ POPUP KOMENTAR FULLSCREEN ═══ -->
-<div class="popup-komen" id="popupKomen">
-  <div class="popup-header">
-    <button class="popup-back" onclick="tutupPopup()">←</button>
-    <div class="popup-htitle">💬 LOG KOMENTAR MEMBER</div>
-    <button class="popup-back" onclick="muatUlangFrame()" title="Muat ulang">⟳</button>
-  </div>
-
-  <div class="popup-loading" id="popupLoading">
-    <span class="spinner2"></span>
-    <span>Memuat halaman komentar...</span>
-  </div>
-
-  <iframe id="komenFrame" class="popup-iframe" src="about:blank"
-          title="Log Komentar Member" loading="lazy"
-          onload="document.getElementById('popupLoading').classList.add('hide')"></iframe>
-</div>
-
-<script>
-const GAS = 'https://script.google.com/macros/s/AKfycbx7C5dF-NksyGqI-TiJ8BvP9Tp90fNbn1LwZb9kbBl7VxNXopFnSvkmMoe7dqHc0eUSvQ/exec';
+// ═══ INTEGRASI GOOGLE APPS SCRIPT JALUR CEPAT ═══
+// Salin URL Web App Makrifat Anda di sini (Ganti placeholder jika dibutuhkan)
+const urlLogKomentar = "https://script.google.com/macros/s/AKfycbx7C5dF-NksyGqI-TiJ8BvP9Tp90fNbn1LwZb9kbBl7VxNXopFnSvkmMoe7dqHc0eUSvQ/exec";
+let loadingTimeout;
 
 function bukaPopup() {
-  document.getElementById('popupKomen').classList.add('show');
-  document.body.style.overflow = 'hidden';
-  document.getElementById('popupLoading').classList.remove('hide');
-  const frame = document.getElementById('komenFrame');
-  frame.src = GAS + '?t=' + Date.now();
+  const popup = document.getElementById('popupKomentar');
+  const iframe = document.getElementById('iframeKomentar');
+  const loading = document.getElementById('popupLoading');
+  const loadingText = document.getElementById('loadingText');
+
+  popup.classList.add('show');
+  loading.classList.remove('hide');
+  loadingText.innerText = "Membuka server log komentar...";
+
+  // Lazy loading dengan bypass cache menggunakan timestamp '?t='
+  iframe.src = urlLogKomentar + '?t=' + Date.now();
+
+  iframe.onload = function() {
+    loading.classList.add('hide');
+    clearTimeout(loadingTimeout);
+  };
+
+  // Proteksi Khusus Telkomsel Seluler / Sinyal Lemah (7 Detik)
+  loadingTimeout = setTimeout(() => {
+    loadingText.innerText = "Jaringan Telkomsel agak sibuk, menampilkan halaman...";
+    setTimeout(() => {
+      loading.classList.add('hide');
+    }, 1500);
+  }, 7000); 
 }
 
 function tutupPopup() {
-  document.getElementById('popupKomen').classList.remove('show');
-  document.body.style.overflow = '';
-  document.getElementById('komenFrame').src = 'about:blank';
+  const popup = document.getElementById('popupKomentar');
+  const iframe = document.getElementById('iframeKomentar');
+  
+  popup.classList.remove('show');
+  iframe.src = "about:blank"; // Membersihkan memori RAM perangkat agar tidak lag
+  clearTimeout(loadingTimeout);
 }
 
-function muatUlangFrame() {
-  document.getElementById('popupLoading').classList.remove('hide');
-  const frame = document.getElementById('komenFrame');
-  frame.src = GAS + '?t=' + Date.now();
+function muatUlangIframe() {
+  const loading = document.getElementById('popupLoading');
+  const loadingText = document.getElementById('loadingText');
+  
+  loading.classList.remove('hide');
+  loadingText.innerText = "Menyegarkan antrean...";
+  
+  const iframe = document.getElementById('iframeKomentar');
+  iframe.src = urlLogKomentar + '?t=' + Date.now();
+}
+
+function menujuArena() {
+    alert('Menghubungkan Kabel AI Satria... Jalur VVIP Terbuka!');
+    window.location.href = "03_ADM_KEUANGAN/Nur8/index.html";
 }
 </script>
 
 </body>
 </html>
-
+	
