@@ -154,6 +154,16 @@ body::before {
 .spinner2 { display:inline-block; width:22px; height:22px; border:2px solid #5a7060;
   border-top-color:#C9A84C; border-radius:50%; animation:spin2 0.8s linear infinite; }
 @keyframes spin2 { to{transform:rotate(360deg)} }
+
+/* Style Khusus Google Translate Kontainer */
+#google_translate_element {
+  text-align: center;
+  margin: 5px auto 0 auto;
+  z-index: 1001;
+}
+/* Menyembunyikan banner atas Google Translate bawaan agar web tetap rapi */
+.goog-te-banner-frame.skiptranslate { display: none !important; }
+body { top: 0px !important; }
 </style>
 </head>
 <body>
@@ -163,6 +173,8 @@ body::before {
        alt="Portal Alwi Kamus Indramayu"
        onerror="this.style.display='none'">
 </div>
+
+<div id="google_translate_element"></div>
 
 <div class="tombol-wrapper">
   <div class="badge-sultan">✨ PORTAL INFORMASI RESMI ✨</div>
@@ -215,6 +227,16 @@ body::before {
           title="Log Komentar Member" loading="lazy"></iframe>
 </div>
 
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'id',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+  }, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 <script>
 function toggleDropup(e) {
   e.stopPropagation();
@@ -234,7 +256,6 @@ window.onclick = function(event) {
 }
 
 // ═══ INTEGRASI GOOGLE APPS SCRIPT JALUR CEPAT ═══
-// Salin URL Web App Makrifat Anda di sini (Ganti placeholder jika dibutuhkan)
 const urlLogKomentar = "https://script.google.com/macros/s/AKfycbx7C5dF-NksyGqI-TiJ8BvP9Tp90fNbn1LwZb9kbBl7VxNXopFnSvkmMoe7dqHc0eUSvQ/exec";
 let loadingTimeout;
 
@@ -248,7 +269,6 @@ function bukaPopup() {
   loading.classList.remove('hide');
   loadingText.innerText = "Membuka server log komentar...";
 
-  // Lazy loading dengan bypass cache menggunakan timestamp '?t='
   iframe.src = urlLogKomentar + '?t=' + Date.now();
 
   iframe.onload = function() {
@@ -256,7 +276,7 @@ function bukaPopup() {
     clearTimeout(loadingTimeout);
   };
 
-  // Proteksi Khusus Telkomsel Seluler / Sinyal Lemah (7 Detik)
+  // Proteksi Khusus Telkomsel Seluler (7 Detik)
   loadingTimeout = setTimeout(() => {
     loadingText.innerText = "Jaringan Telkomsel agak sibuk, menampilkan halaman...";
     setTimeout(() => {
@@ -270,7 +290,7 @@ function tutupPopup() {
   const iframe = document.getElementById('iframeKomentar');
   
   popup.classList.remove('show');
-  iframe.src = "about:blank"; // Membersihkan memori RAM perangkat agar tidak lag
+  iframe.src = "about:blank"; 
   clearTimeout(loadingTimeout);
 }
 
@@ -284,13 +304,8 @@ function muatUlangIframe() {
   const iframe = document.getElementById('iframeKomentar');
   iframe.src = urlLogKomentar + '?t=' + Date.now();
 }
-
-function menujuArena() {
-    alert('Menghubungkan Kabel AI Satria... Jalur VVIP Terbuka!');
-    window.location.href = "03_ADM_KEUANGAN/Nur8/index.html";
-}
 </script>
 
 </body>
 </html>
-	
+
