@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════
-// AGEN ALWI - PERBAIKAN SINTAKS & ERROR HANDLER
+// AGEN ALWI - PERBAIKAN SINTAKS, ERROR HANDLER & INTERNATIONAL LAW
 // ═══════════════════════════════════════════════════════════════════
 
 const AGEN_ALWI_CONFIG = {
@@ -14,12 +14,12 @@ const AGEN_ALWI_CONFIG = {
 const MENU_LAYANAN = {
   'nur1': {
     label: '🏠 Nur 1 - INDRAMAYU_CLUB',
-    desc: 'Portal Utama & Beranda Makrifat',
+    desc: 'Main Portal & Makrifat Homepage',
     pages: [{ key: 'media', label: 'Media Utama', url: 'nur1_media.html' }]
   },
   'nur2': {
     label: '💬 Nur 2 - DASHBOARD SULTAN',
-    desc: 'Login, Server Raja & Admin Video',
+    desc: 'Login, King Server & Video Admin',
     pages: [
       { key: 'login', label: 'Login Sultan', url: 'nur2_login.html' },
       { key: 'raja', label: 'Raja Server', url: 'nur2_raja_server.html' },
@@ -28,27 +28,27 @@ const MENU_LAYANAN = {
   },
   'nur3': {
     label: '📊 Nur 3 - ADMINISTRASI',
-    desc: 'Dashboard Keuangan Pagi (Kas 5% & Voucher)',
+    desc: 'Morning Finance Dashboard (Kas 5% & Voucher)',
     pages: [{ key: 'keuangan', label: 'Keuangan Pagi', url: 'nur3_keuangan_pagi.html' }]
   },
   'nur4': {
     label: '🎨 Nur 4 - KREATOR_DIGITAL',
-    desc: 'Manajemen Aset Digital',
+    desc: 'Digital Asset Management',
     pages: [{ key: 'aset', label: 'Aset Digital', url: 'nur4_aset_digital.html' }]
   },
   'nur5': {
     label: '🎯 Nur 5 - GAME_ARISAN',
-    desc: 'Menu Utama Modul Arisan',
+    desc: 'Main Menu Arisan Module',
     pages: [{ key: 'menu', label: 'Menu Utama', url: 'nur5_menu_utama.html' }]
   },
   'nur6': {
     label: '💰 Nur 6 - BANK_GAME',
-    desc: 'Vault Kas & Admin Keuangan',
+    desc: 'Vault Kas & Finance Admin',
     pages: [{ key: 'adm', label: 'Folder Admin Keuangan', url: '03_ADM_KEUANGAN/' }]
   },
   'nur7': {
     label: '🔊 Nur 7 - STREAMING & LIVE',
-    desc: 'Live Member, Streaming & Status Panggung',
+    desc: 'Live Member, Streaming & Stage Status',
     pages: [
       { key: 'live', label: 'Live Member', url: 'nur7_live_member.html' },
       { key: 'straming', label: 'Streaming', url: 'nur7.straming.html' },
@@ -57,17 +57,17 @@ const MENU_LAYANAN = {
   },
   'nur8': {
     label: '🌙 Nur 8 - SISTEM & EMULATOR',
-    desc: 'Emulator & Pemeliharaan',
+    desc: 'Emulator & Maintenance Center',
     pages: [{ key: 'emulator', label: 'Emulator', url: 'nur8_emulator.html' }]
   },
   'nur9': {
     label: '🎮 Nur 9 - GAME_INDRAMAYU',
-    desc: 'Belum tersedia di server',
+    desc: 'Not available on server yet',
     pages: []
   },
   'nur10': {
     label: '👑 Nur 10 - PEWARIS_CAHAYA',
-    desc: 'Kamus Alwi / Panggung Sultan VVIP',
+    desc: 'Alwi Dictionary / Sultan VVIP Stage',
     pages: [{ key: 'kamus', label: 'Kamus Alwi', url: 'nur10_kamus_alwi.html' }]
   }
 };
@@ -104,7 +104,7 @@ function playAzanSound() {
       osc.start(currentTime); osc.stop(currentTime + nada.durasi);
       currentTime += nada.durasi + 0.1;
     });
-  } catch (e) { console.log('Suara azan diblokir browser'); }
+  } catch (e) { console.log('Prayer time sound blocked by browser'); }
 }
 
 const GTTS_CONFIG = { lang: 'id', enabled: (localStorage.getItem('ic_alwi_suara') !== 'off'), chunkSize: 180 };
@@ -112,7 +112,7 @@ let antrianSuaraGTTS = [];
 let sedangBicaraGTTS = false;
 
 function pecahTeksUntukGTTS(teks, maxLen) {
-  const bersih = teks.replace(/\n+/g, '. ').replace(/[⛑️🤖🌙✨💰🕌👤🏠📊📖🧮👥👑💬🔐🎯✅🔊🙏😊🌿🎨]/g, '');
+  const bersih = teks.replace(/\n+/g, '. ').replace(/[⛑️🤖🌙✨💰 🕌👤🏠 📊📖🧮 👥👑💬🔐🎯✅🔊🙏😊🌿🎨]/g, '');
   const kalimat = bersih.split(/(?<=[.!?])\s+/).filter(k => k.trim().length > 0);
   const potongan = []; let buffer = '';
   kalimat.forEach(k => {
@@ -128,7 +128,7 @@ function pecahTeksUntukGTTS(teks, maxLen) {
 function fallbackSpeechSynthesis(teks, lang) {
   if ('speechSynthesis' in window) {
     const u = new SpeechSynthesisUtterance(teks);
-    u.lang = lang === 'id' ? 'id-ID' : 'en-US';
+    u.lang = lang === 'en' ? 'en-US' : 'id-ID';
     window.speechSynthesis.speak(u);
   }
 }
@@ -161,11 +161,16 @@ function toggleSuaraAlwi() {
   if (!GTTS_CONFIG.enabled) {
     antrianSuaraGTTS = [];
     if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-  } else { bicaraGoogleTTS('Suara Agen Alwi aktif.', 'id'); }
+  } else { bicaraGoogleTTS('Voice engine activated.', 'en'); }
 }
 
 function renderAgenAlwiBot() {
   if (document.getElementById('agenAlwiContainer')) return;
+  const isEn = (document.documentElement.lang === 'en');
+  const welcomeMsg = isEn ? "Assalamu'alaikum! I am Agent Alwi. 10 Nur Navigation is ready." : "Assalamu'alaikum! Saya Agen Alwi. Navigasi 10 Nur siap melayani.";
+  const placeholderText = isEn ? "Type a message..." : "Ketik pesan...";
+  const titleSub = isEn ? "10 Nur Navigation" : "Navigasi 10 Nur";
+
   const containerHTML = `
     <div id="agenAlwiContainer" style="position: fixed; bottom: 20px; right: 20px; z-index: 9998; font-family: 'Inter', sans-serif;">
       <button id="agenAlwiToggle" onclick="toggleAgenAlwi()" style="width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, #06140b, #0a2e1c); border: 3px solid #c9a84c; color: #ffd700; font-size: 28px; cursor: pointer; box-shadow: 0 4px 20px rgba(201, 168, 76, 0.4); display: flex; align-items: center; justify-content: center;">⛑️</button>
@@ -175,7 +180,7 @@ function renderAgenAlwiBot() {
             <span style="font-size: 24px;">⛑️</span>
             <div>
               <div style="font-size: 14px; font-weight: 900; color: #ffd700;">AGEN ALWI</div>
-              <div style="font-size: 10px; color: #c9a84c;">Navigasi 10 Nur</div>
+              <div style="font-size: 10px; color: #c9a84c;">${titleSub}</div>
             </div>
           </div>
           <div style="display:flex; gap:6px; align-items:center;">
@@ -185,7 +190,7 @@ function renderAgenAlwiBot() {
         </div>
         <div id="agenAlwiChat" style="flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px;" class="alwi-chat-scroll"></div>
         <div style="border-top: 1px solid #c9a84c; padding: 12px; display: flex; gap: 8px;">
-          <input type="text" id="agenAlwiInput" placeholder="Ketik pesan..." onkeypress="if(event.key==='Enter') kirimPesanKeAlwi()" style="flex: 1; background: #06140b; border: 1px solid #c9a84c; border-radius: 8px; padding: 10px 12px; color: #ffd700; font-size: 12px; outline: none;" />
+          <input type="text" id="agenAlwiInput" placeholder="${placeholderText}" onkeypress="if(event.key==='Enter') kirimPesanKeAlwi()" style="flex: 1; background: #06140b; border: 1px solid #c9a84c; border-radius: 8px; padding: 10px 12px; color: #ffd700; font-size: 12px; outline: none;" />
           <button onclick="kirimPesanKeAlwi()" style="background: linear-gradient(135deg, #c9a84c, #ffd700); border: none; border-radius: 8px; width: 40px; height: 40px; color: #06140b; cursor: pointer; font-weight: 900;">➔</button>
         </div>
       </div>
@@ -204,7 +209,7 @@ function renderAgenAlwiBot() {
   `;
   document.body.insertAdjacentHTML('beforeend', containerHTML);
   setTimeout(() => {
-    tambahPesanAlwi('Assalamu\'alaikum! Saya Agen Alwi. Navigasi 10 Nur siap melayani.');
+    tambahPesanAlwi(welcomeMsg);
   }, 500);
 }
 
@@ -226,7 +231,11 @@ function tambahPesanAlwi(teks, dariUser = false) {
   msgDiv.appendChild(bubbleDiv);
   chatDiv.appendChild(msgDiv);
   chatDiv.scrollTop = chatDiv.scrollHeight;
-  if (!dariUser) bicaraGoogleTTS(teks, 'id');
+  
+  if (!dariUser) {
+    const detectLang = /[a-zA-Z]/.test(teks) && !teks.includes("Keuangan") ? 'en' : 'id';
+    bicaraGoogleTTS(teks, detectLang);
+  }
 }
 
 function kirimPesanKeAlwi() {
@@ -242,18 +251,24 @@ function kirimPesanKeAlwi() {
 }
 
 function prosesKatalkunci(teks) {
-  if (teks.includes('menu')) {
-    return 'Daftar Nur:\n' + Object.values(MENU_LAYANAN).map(m => m.label).join('\n');
+  const isEn = (document.documentElement.lang === 'en' || teks.includes('menu') || teks.includes('list'));
+  
+  if (teks.includes('menu') || teks.includes('list')) {
+    const title = isEn ? 'Nur System List:\n' : 'Daftar Nur:\n';
+    return title + Object.values(MENU_LAYANAN).map(m => m.label).join('\n');
   }
+  
   for (const [key, menu] of Object.entries(MENU_LAYANAN)) {
     if (teks.includes(key)) {
-      if (menu.pages.length === 0) return menu.label + ' belum aktif.';
+      if (menu.pages.length === 0) {
+        return isEn ? menu.label + ' is not active yet.' : menu.label + ' belum aktif.';
+      }
       const target = menu.pages[0].url;
       setTimeout(() => { window.location.href = target; }, 1200);
-      return 'Mengarahkan ke ' + menu.label + '...';
+      return isEn ? 'Redirecting to ' + menu.label + '...' : 'Mengarahkan ke ' + menu.label + '...';
     }
   }
-  return 'Perintah tidak dikenali.';
+  return isEn ? 'Command not recognized.' : 'Perintah tidak dikenali.';
 }
 
 function setupSystemAzan() {
@@ -263,7 +278,8 @@ function setupSystemAzan() {
     for (const [key, shalat] of Object.entries(JADWAL_AZAN)) {
       if (jam === shalat.waktu) {
         playAzanSound();
-        tambahPesanAlwi('Waktu shalat ' + shalat.nama + ' tiba.');
+        const msg = (document.documentElement.lang === 'en') ? `Prayer time for ${shalat.nama} has arrived.` : `Waktu shalat ${shalat.nama} tiba.`;
+        tambahPesanAlwi(msg);
       }
     }
   }, 60000);
@@ -271,3 +287,4 @@ function setupSystemAzan() {
 
 inisialisasiAlwiBot = () => { renderAgenAlwiBot(); setupSystemAzan(); };
 if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', inisialisasiAlwiBot); } else { inisialisasiAlwiBot(); }
+
