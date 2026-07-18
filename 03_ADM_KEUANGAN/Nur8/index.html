@@ -2,15 +2,46 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ARENA GAME NUR 8</title>
 <style>
-  body { background: #f4e8cf; font-family: sans-serif; text-align: center; padding: 20px; }
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 400px; margin: 0 auto; }
-  a { display: block; padding: 15px; background: #e8a838; border: 2px solid #3a2317; text-decoration: none; color: #3a2317; border-radius: 10px; font-weight: bold; }
+  body { 
+    background: #f4e8cf; 
+    font-family: sans-serif; 
+    text-align: center; 
+    margin: 0; 
+    padding: 20px;
+  }
+  .grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 10px; 
+    max-width: 360px; 
+    margin: 0 auto 15px auto; 
+  }
+  a { 
+    display: block; 
+    padding: 15px; 
+    background: #e8a838; 
+    border: 2px solid #b87818; 
+    color: #000; 
+    text-decoration: none; 
+    font-weight: bold; 
+    border-radius: 8px; 
+  }
+  a:active { opacity: 0.8; }
+  .btn-kembali {
+    display: block;
+    max-width: 360px;
+    margin: 10px auto;
+    background: #e8a838;
+    border: 2px solid #b87818;
+  }
 </style>
 </head>
 <body>
   <h1>ARENA GAME</h1>
+  
   <div class="grid">
     <a href="MOO1_Tebak.html">Tebak Angka</a>
     <a href="M002.html">Tic Tac Toe</a>
@@ -21,10 +52,12 @@
     <a href="MOO7_tikus.html">Tepuk Tikus</a>
     <a href="MOO8_2048.html">Game 2048</a>
     <a href="MOO9_jucebox.html">Jucebox</a>
-    <a href="MOO10_kotak.html">Lompat Kotak</a>
+    <a href="MOO10_lompat.html">Lompat Kotak</a>
   </div>
-  <br>
-  <a href="../index.html">⬅ KEMBALI KE UTAMA</a>
+
+  <!-- Jalur sukses naik 2 tingkat menuju portal utama -->
+  <a href="../../index.html" class="btn-kembali">⬅ KEMBALI KE UTAMA</a>
+
 <script src="components/agen_alwi.js"></script>
 </body>
 </html>
