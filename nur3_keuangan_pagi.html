@@ -1,414 +1,1341 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <base target="_top">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 INDEX DISKUSI - INDRAMAYU CLUB</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <style>
-    :root {
-      --putih:       #ffffff;
-      --putih-abu:   #f5f5f5;
-      --abu-muda:    #e8e8e8;
-      --abu:         #999;                                            
-      --teks:        #1a1a1a;
-      --teks-sub:    #555;                                            
-      --hijau:       #1d6b3a;
-      --hijau-muda:  #27ae60;
-      --emas:        #c9a227;
-      --emas-terang: #f0c040;
-      --border:      #e0e0e0;
-    }
+        :root {
+            --primary: #1a472a;
+            --secondary: #2d5f45;
+            --accent: #ff6b6b;
+            --warning: #feca57;
+            --dark: #1a1a1a;
+            --light: #f8f9fa;
+        }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
 
-    html, body {
-      height: 100%; width: 100%;
-      font-family: 'Inter', sans-serif;
-      background: #eef2f3; 
-      color: var(--teks);
-      font-size: 14px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
+        /* ============ HEADER ============ */
+        header {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
 
-    /* ── KONTENIR UTAMA ── */
-    .layout {
-      display: flex; 
-      flex-direction: column;
-      height: 100vh; 
-      width: 100%;
-      max-width: 500px; 
-      background: var(--putih-abu);
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); 
-      position: relative; 
-      overflow: hidden;   
-    }
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
 
-    /* ── HEADER ── */
-    .header {
-      background: var(--putih);
-      border-bottom: 2px solid var(--border);
-      padding: 14px 20px;
-      display: flex; align-items: center; justify-content: space-between;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      flex-shrink: 0;
-    }
-    .header-kiri { display: flex; align-items: center; gap: 12px; }
-    .header-ikon {
-      width: 40px; height: 40px; border-radius: 10px;
-      background: linear-gradient(135deg, var(--hijau), var(--hijau-muda));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px; flex-shrink: 0;
-      box-shadow: 0 2px 8px rgba(29,107,58,0.3);
-    }
-    .header-judul {
-      font-family: 'Cinzel', serif;
-      font-size: 1rem; font-weight: 900;
-      color: var(--teks); letter-spacing: 0.05em;
-    }
-    .header-sub {
-      font-size: 10px; color: var(--abu);
-      letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px;
-    }
-    .badge-online {
-      background: #ecfdf5; border: 1px solid #6ee7b7;
-      color: #059669; font-size: 10px; font-weight: 700;
-      padding: 4px 10px; border-radius: 20px; letter-spacing: 0.06em;
-      display: flex; align-items: center; gap: 5px;
-    }
-    .badge-online::before {
-      content: ''; width: 6px; height: 6px; border-radius: 50%;
-      background: #10b981; animation: denyut 1.4s ease-in-out infinite;
-    }
-    @keyframes denyut { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+        .header-content h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
 
-    /* ── AREA PESAN (BISA DI-SCROLL AMAN) ── */
-    .content-area {
-      flex: 1; 
-      overflow-y: auto; 
-      padding: 16px 20px;
-      display: flex; 
-      flex-direction: column; 
-      gap: 12px;
-      background: var(--putih-abu);
-      padding-bottom: 170px !important; 
-    }
-    .content-area::-webkit-scrollbar { width: 4px; }
-    .content-area::-webkit-scrollbar-track { background: transparent; }
-    .content-area::-webkit-scrollbar-thumb { background: var(--abu-muda); border-radius: 4px; }
+        .header-content p {
+            color: #b0e0e6;
+            font-size: 14px;
+        }
 
-    /* Gelembung sistem */
-    .sistem-info {
-      text-align: center;
-      margin: 4px 0;
-    }
-    .sistem-info span {
-      background: var(--abu-muda); color: var(--abu);
-      font-size: 11px; padding: 5px 14px; border-radius: 20px;
-      letter-spacing: 0.04em;
-    }
+        /* ============ NAVIGATION ============ */
+        nav {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            position: sticky;
+            top: 60px;
+            z-index: 999;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
 
-    /* Gelembung pesan */
-    .pesan-item {
-      display: flex; gap: 10px; align-items: flex-start;
-      animation: naik 0.3s ease;
-    }
-    @keyframes naik { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
 
-    .avatar {
-      width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
-      background: linear-gradient(135deg, var(--hijau), var(--emas));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 15px; font-weight: 700; color: #fff;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-    }
+        .nav-btn:hover,
+        .nav-btn.active {
+            background: rgba(255, 255, 255, 0.4);
+            border-color: white;
+            transform: translateY(-2px);
+        }
 
-    .bubble-wrap { display: flex; flex-direction: column; gap: 3px; max-width: 80%; }
-    .bubble-meta { display: flex; align-items: baseline; gap: 8px; }
-    .bubble-nama { font-size: 12px; font-weight: 700; color: var(--hijau); }
-    .bubble-waktu { font-size: 10px; color: var(--abu); }
+        /* ============ MAIN CONTENT ============ */
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
 
-    .bubble {
-      background: var(--putih);
-      border: 1px solid var(--border);
-      border-radius: 0 14px 14px 14px;
-      padding: 10px 14px;
-      font-size: 13px; line-height: 1.5; color: var(--teks);
-      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-      word-break: break-word;
-    }
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
 
-    /* ── INPUT AREA (DIPAKU MATI DI BAWAH) ── */
-    .input-area {
-      background: var(--putih) !important;
-      border-top: 1px solid var(--border);
-      padding: 14px 20px;
-      box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
-      position: absolute !important;
-      bottom: 0 !important;
-      left: 0 !important;
-      width: 100% !important;
-      z-index: 999999 !important; 
-    }
+        .page.active {
+            display: block;
+        }
 
-    .input-nama-wrap {
-      display: flex; 
-      flex-direction: column; 
-      gap: 8px; 
-      margin-bottom: 10px;
-    }
-    .input-row {
-      display: flex; 
-      align-items: center; 
-      gap: 10px; 
-      width: 100%;
-    }
-    .label-kecil {
-      font-size: 11px; font-weight: 600; color: var(--abu);
-      letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap;
-      width: 50px;
-    }
-    .input-field {
-      flex: 1; border: 1.5px solid var(--border);
-      border-radius: 8px; padding: 6px 12px;
-      font-size: 13px; color: var(--teks);
-      font-family: 'Inter', sans-serif; outline: none;
-      background: var(--putih-abu);
-      transition: border-color 0.2s;
-    }
-    .input-field:focus { border-color: var(--hijau-muda); background: #fff; }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    .pesan-wrap {
-      display: flex; gap: 10px; align-items: flex-end;
-    }
-    #pesan {
-      flex: 1; border: 1.5px solid var(--border);
-      border-radius: 12px; padding: 10px 14px;
-      font-size: 13px; color: var(--teks);
-      font-family: 'Inter', sans-serif; outline: none;
-      resize: none; min-height: 44px; max-height: 80px;
-      background: var(--putih-abu); line-height: 1.5;
-      transition: border-color 0.2s;
-    }
-    #pesan:focus { border-color: var(--hijau-muda); background: #fff; }
+        .page-header {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
 
-    .btn-kirim {
-      width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
-      background: linear-gradient(135deg, var(--hijau), var(--hijau-muda));
-      border: none; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; color: #fff;
-      box-shadow: 0 4px 12px rgba(29,107,58,0.35);
-      transition: transform 0.15s, filter 0.15s;
-    }
-    .btn-kirim:hover  { transform: scale(1.08); filter: brightness(1.1); }
-    .btn-kirim:active { transform: scale(0.95); }
+        .page-header h2 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
 
-    .emas-strip {
-      height: 3px;
-      background: linear-gradient(90deg, var(--hijau) 0%, var(--emas) 50%, var(--hijau) 100%);
-      background-size: 200% 100%;
-      animation: geser 3s linear infinite;
-    }
-    @keyframes geser { 0%{background-position:0%} 100%{background-position:200%} }
-  </style>
+        .page-header p {
+            color: #666;
+            font-size: 14px;
+        }
 
-  <script src="./03_ADM_KEUANGAN/radar.js"></script>
+        /* ============ CONTENT SECTIONS ============ */
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid var(--primary);
+        }
+
+        .section h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .section h4 {
+            color: var(--secondary);
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .section p {
+            color: #666;
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+
+        .code-block {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #333;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline-item {
+            margin-bottom: 20px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            position: absolute;
+            left: -30px;
+            top: 5px;
+        }
+
+        .timeline-item::after {
+            content: '';
+            width: 2px;
+            height: 100%;
+            background: #ddd;
+            position: absolute;
+            left: -24px;
+            top: 12px;
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .timeline-item strong {
+            color: var(--primary);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* ============ DRIVE INTEGRATION ============ */
+        .drive-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .drive-box h4 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .drive-btn {
+            background: white;
+            color: var(--primary);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .drive-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .drive-btn.google {
+            background: #4285F4;
+            color: white;
+        }
+
+        .drive-btn.whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .drive-btn.facebook {
+            background: #1877F2;
+            color: white;
+        }
+
+        .drive-btn.instagram {
+            background: #E1306C;
+            color: white;
+        }
+
+        .drive-btn.youtube {
+            background: #FF0000;
+            color: white;
+        }
+
+        .drive-btn.tiktok {
+            background: #000000;
+            color: white;
+        }
+
+        /* ============ ACCORDION ============ */
+        .accordion {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .accordion-header {
+            padding: 15px;
+            background: var(--light);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background: #e8e8e8;
+        }
+
+        .accordion-header.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .accordion-content {
+            padding: 15px;
+            display: none;
+            background: #f9f9f9;
+        }
+
+        .accordion-content.active {
+            display: block;
+        }
+
+        /* ============ STATS ============ */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        /* ============ TABLE ============ */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        table th {
+            background: var(--primary);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            font-size: 13px;
+        }
+
+        table tr:hover {
+            background: #f9f9f9;
+        }
+
+        /* ============ FOOTER ============ */
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 10px;
+            }
+
+            nav {
+                flex-direction: column;
+            }
+
+            .nav-btn {
+                width: 100%;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- ============ HEADER ============ -->
+    <header>
+        <div class="header-content">
+            <h1>📚 INDEX DISKUSI LENGKAP</h1>
+            <p>INDRAMAYU CLUB - Dokumentasi Komprehensif Semua Pembahasan</p>
+        </div>
+    </header>
 
-<div class="layout">
+    <!-- ============ NAVIGATION ============ -->
+    <nav>
+        <button class="nav-btn active" onclick="showPage('overview')">📋 Ringkasan</button>
+        <button class="nav-btn" onclick="showPage('gdrive')">📂 Google Drive Config</button>
+        <button class="nav-btn" onclick="showPage('banner')">🎨 Banner & Running Text</button>
+        <button class="nav-btn" onclick="showPage('api')">🔌 API Jadwal Sholat</button>
+        <button class="nav-btn" onclick="showPage('index')">🌐 Index.html Integrasi</button>
+        <button class="nav-btn" onclick="showPage('struktur')">📊 Struktur Proyek</button>
+        <button class="nav-btn" onclick="showPage('kontakt')">📞 Kontrak & Info</button>
+    </nav>
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="header-kiri">
-      <div class="header-ikon">🌿</div>
-      <div>
-        <div class="header-judul">Indramayu Club Magazine</div>
-        <div class="header-sub">Ruang Diskusi & Kesan Member</div>
-      </div>
-    </div>
-    <div class="badge-online">ONLINE</div>
-  </div>
-  <div class="emas-strip"></div>
+    <!-- ============ MAIN CONTENT ============ -->
+    <div class="container">
+        <!-- PAGE 1: OVERVIEW -->
+        <div id="overview" class="page active">
+            <div class="page-header">
+                <h2>📋 Ringkasan Diskusi Lengkap</h2>
+                <p>Dokumentasi menyeluruh dari awal hingga akhir pembahasan Indramayu Club</p>
+            </div>
 
-  <!-- AREA KONTEN / PESAN -->
-  <div class="content-area" id="diskusi-box">
-    <div class="sistem-info">
-      <span>📅 Hari ini — Selamat datang di Ruang Diskusi</span>
-    </div>
-  </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">Topik Utama</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">9</div>
+                    <div class="stat-label">Akun Google Drive</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Halaman Website</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">API Integrated</div>
+                </div>
+            </div>
 
-  <!-- INPUT AREA DENGAN FORM DATA LENGKAP -->
-  <div class="input-area">
-    <div class="input-nama-wrap">
-      <div class="input-row">
-        <span class="label-kecil">Nama</span>
-        <input type="text" id="nama" class="input-field" placeholder="Nama kamu...">
-      </div>
-      <div class="input-row">
-        <span class="label-kecil">Email</span>
-        <input type="email" id="email" class="input-field" placeholder="email@contoh.com...">
-      </div>
-      <div class="input-row">
-        <span class="label-kecil">Telp</span>
-        <input type="tel" id="nomor_telepon" class="input-field" placeholder="08123xxxx...">
-      </div>
-    </div>
-    <div class="pesan-wrap">
-      <textarea id="pesan" rows="1" placeholder="Tulis pesan atau kesan..."
-        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();kirimPesan()}"
-        oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
-      <button class="btn-kirim" onclick="kirimPesan()" title="Kirim">➤</button>
-    </div>
-  </div>
+            <!-- TIMELINE DISKUSI -->
+            <div class="section">
+                <h3>⏱️ Timeline Diskusi</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <strong>1️⃣ Google Drive Configuration</strong>
+                        Pembahasan tentang 9 akun Google Drive untuk sistem Indramayu Club dengan ID folder masing-masing untuk berbagi file dan resource.
+                    </div>
 
-</div>
+                    <div class="timeline-item">
+                        <strong>2️⃣ WhatsApp & Security</strong>
+                        Integrasi nomor WhatsApp (081386517352) dengan sistem keamanan enkripsi dan obfuscation untuk melindungi data pribadi.
+                    </div>
 
-<!-- SYSTEM MANAGEMENT ENGINE -->
-<script>
-  const API_URL = "https://script.google.com/macros/s/AKfycbwHj8qSe7e_5eFHvWHeC-oYURd04uzW4iEyyjLTRZhoqjqoFzLdOmy3fsv05eWJR8d6yA/exec";
+                    <div class="timeline-item">
+                        <strong>3️⃣ Banner Media Sosial</strong>
+                        Pembuatan tirai/running text untuk media sosial dengan logo Indramayu Club, text bergerak kanan ke kiri, dan warna peringatan untuk Adzan & Imsak.
+                    </div>
 
-  function waktuSekarang() {
-    return new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-  }
+                    <div class="timeline-item">
+                        <strong>4️⃣ API Jadwal Sholat Internasional</strong>
+                        Penelusuran dan pemilihan API jadwal sholat gratis yang mendukung berbagai negara dan kota, dengan fokus pada Aladhan API.
+                    </div>
 
-  function inisialAvatar(nama) {
-    return (nama || '?').charAt(0).toUpperCase();
-  }
+                    <div class="timeline-item">
+                        <strong>5️⃣ Implementasi Full Banner</strong>
+                        Integrasi API Aladhan ke dalam HTML banner dengan real-time data jadwal sholat, email & WhatsApp tersembunyi, dan responsive design.
+                    </div>
 
-  function tambahPesan(nama, teks, waktu = null, sistem = false) {
-    const box = document.getElementById('diskusi-box');
-    const displayTime = waktu || waktuSekarang();
+                    <div class="timeline-item">
+                        <strong>6️⃣ Index.html Multi-Page</strong>
+                        Pembuatan index.html dengan 8 halaman terintegrasi dalam 1 file dengan sistem navigasi smooth dan modal interactions.
+                    </div>
 
-    if (sistem) {
-      const el = document.createElement('div');
-      el.className = 'sistem-info';
-      el.innerHTML = `<span>${teks}</span>`;
-      box.appendChild(el);
-    } else {
-      const item = document.createElement('div');
-      item.className = 'pesan-item';
-      item.innerHTML = `
-        <div class="avatar">${inisialAvatar(nama)}</div>
-        <div class="bubble-wrap">
-          <div class="bubble-meta">
-            <span class="bubble-nama">${escHtml(nama)}</span>
-            <span class="bubble-waktu">${displayTime}</span>
-          </div>
-          <div class="bubble">${escHtml(teks)}</div>
-        </div>`;
-      box.appendChild(item);
-    }
-    box.scrollTop = box.scrollHeight;
-  }
+                    <div class="timeline-item">
+                        <strong>7️⃣ Google Drive Integration</strong>
+                        Integrasi akses Google Drive di setiap halaman untuk management data, backup, dan penyimpanan cloud resource Indramayu Club.
+                    </div>
+                </div>
+            </div>
 
-  function escHtml(str) {
-    return String(str)
-      .replace(/&/g,'&amp;')
-      .replace(/</g,'&lt;')
-      .replace(/>/g,'&gt;')
-      .replace(/"/g,'&quot;');
-  }
+            <!-- DOKUMEN DIBUAT -->
+            <div class="section">
+                <h3>📄 File & Dokumen Yang Dibuat</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama File</th>
+                            <th>Deskripsi</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>google-drive-config.js</td>
+                            <td>Konfigurasi 9 akun Google Drive dengan folder ID</td>
+                            <td>✅ Siap</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>social-media-banner.html</td>
+                            <td>Banner media sosial dengan animasi running text</td>
+                            <td>✅ Siap</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>social-media-banner-with-api.html</td>
+                            <td>Banner dengan integrasi API Aladhan jadwal sholat</td>
+                            <td>✅ Siap</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>index.html</td>
+                            <td>Website main dengan 8 halaman terintegrasi</td>
+                            <td>✅ Siap</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>INDEX-DISKUSI-LENGKAP.html</td>
+                            <td>Dokumentasi lengkap semua diskusi & pembahasan</td>
+                            <td>✅ Siap</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-  // AMBIL DATA DARI BACKEND SAAT HALAMAN DIBUKA
-  async function muatKomentar() {
-    try {
-      const response = await fetch(API_URL);
-      const data = await response.json();
-      if (data.success && data.komentar) {
-        data.komentar.forEach(item => {
-          tambahPesan(item.nama, item.pesan, item.waktu);
-        });
+            <div class="drive-box">
+                <h4>🔗 Akses Google Drive Integration Sekarang</h4>
+                <button class="drive-btn google" onclick="accessGoogleDrive()">📂 Google Drive Config</button>
+                <button class="drive-btn" onclick="showPage('gdrive')">📖 Baca Detail</button>
+            </div>
+        </div>
+
+        <!-- PAGE 2: GOOGLE DRIVE CONFIG -->
+        <div id="gdrive" class="page">
+            <div class="page-header">
+                <h2>📂 Konfigurasi Google Drive</h2>
+                <p>Dokumentasi lengkap 9 akun Google Drive untuk Indramayu Club</p>
+            </div>
+
+            <div class="alert alert-info">
+                ℹ️ Semua akun Google Drive di bawah adalah akun terpisah dengan folder ID unik untuk mengorganisir data Indramayu Club.
+            </div>
+
+            <div class="section">
+                <h3>📊 Data Konfigurasi Google Drive</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Ruangan</th>
+                            <th>Email Account</th>
+                            <th>Folder ID</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>INDRAMAYU_CLUB</td>
+                            <td>indramayuclubmakrifat@gmail.com</td>
+                            <td><code>1-vfSMe4HLBRw_6xgHQuzL2MaL-QsmYyT</code></td>
+                            <td>✅ Aktif</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>DISKUSI</td>
+                            <td>dkohar011@gmail.com</td>
+                            <td><code>19ezgJgH4kn7KV23NMaLsUnJVHl8PMJT_</code></td>
+                            <td>✅ Aktif</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>ADMINISTRASI</td>
+                            <td>imahazzah51@gmail.com</td>
+                            <td><code>1v0Wc-oNUhJYHBIj9sP6KcmOXwNpHkzm_</code></td>
+                            <td>✅ Aktif</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>KREATOR_DIGITAL</td>
+                            <td>kurnadibewok3311@gmail.com</td>
+                            <td><code>1w4NdVPZVDbdptFT_n3mtL0zxPQ_Uveuz</code></td>
+                            <td>✅ Aktif</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>GAME_ARISAN</td>
+                            <td>motherainur8@gmail.com</td>
+                            <td><code>19sQU6y-_PD2Nj9-wRdsICh7LUyxtspia</code></td>
+                            <td>✅ Aktif</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>BANK_GAME</td>
+                            <td>banggamenurai@gmail.com</td>
+                            <td><code>1Gt21jF-4N-eOep5U_ZWjtYHqIjXSGvPa</code></td>
+                            <td>✅ Aktif</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>GAME_INDRAMAYU</td>
+                            <td>emulatorgamenurai@gmail.com</td>
+                            <td><code>1AY5jD0BbOZMcUW2JTq5HpbNlZQ1l3P3n</code></td>
+                            <td>✅ Aktif</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>KOMUNIKASI</td>
+                            <td>aimininurindramayu@gmail.com</td>
+                            <td><code>15pynM8x7bca0deCVLjW6BhyqW5lQZ76s</code></td>
+                            <td>✅ Aktif</td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>BACKUP</td>
+                            <td>nurindramayuaimini@gmail.com</td>
+                            <td><code>1D2jx-VV-AkPwc6rUtvabthyYc61Lw7Ti</code></td>
+                            <td>✅ Aktif</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <h3>🗂️ Folder Categories</h3>
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        📁 AI_MUBIN <span>▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        Folder untuk menyimpan file AI, machine learning, dan automation scripts untuk Indramayu Club.
+                    </div>
+                </div>
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        📁 AI_KESATRIA <span>▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        Folder khusus untuk data warrior/community leader dan strategic AI implementation.
+                    </div>
+                </div>
+            </div>
+
+            <div class="drive-box">
+                <h4>🔗 Akses Google Drive Sekarang</h4>
+                <button class="drive-btn google" onclick="accessGoogleDrive()">📂 Buka Google Drive</button>
+                <button class="drive-btn google" onclick="viewAllDrives()">👁️ Lihat Semua Drive</button>
+            </div>
+
+            <div class="section">
+                <h3>📖 Cara Menggunakan Google Drive Config</h3>
+                <h4>1. Import Configuration</h4>
+                <div class="code-block">
+const googleDriveConfig = require('./google-drive-config.js');
+console.log(googleDriveConfig.accounts);
+                </div>
+                <h4>2. Akses Folder Spesifik</h4>
+                <div class="code-block">
+const adminFolder = googleDriveConfig.accounts[0]; // INDRAMAYU_CLUB
+const discussionFolder = googleDriveConfig.accounts[1]; // DISKUSI
+                </div>
+                <h4>3. Kelola File di Drive</h4>
+                <p>Gunakan Google Drive API untuk upload, download, dan manage file di masing-masing folder yang telah dikonfigurasi.</p>
+            </div>
+        </div>
+
+        <!-- PAGE 3: BANNER & RUNNING TEXT -->
+        <div id="banner" class="page">
+            <div class="page-header">
+                <h2>🎨 Banner Media Sosial & Running Text</h2>
+                <p>Dokumentasi banner berjalan dengan logo Indramayu Club dan jadwal adzan</p>
+            </div>
+
+            <div class="alert alert-success">
+                ✅ File: social-media-banner-with-api.html - Siap digunakan dan di-deploy ke production
+            </div>
+
+            <div class="section">
+                <h3>🎯 Spesifikasi Banner</h3>
+                <h4>✨ Fitur Utama:</h4>
+                <ul style="margin-left: 20px; color: #666;">
+                    <li>✅ Text bergerak dari kanan ke kiri (smooth animation)</li>
+                    <li>✅ Warna peringatan merah (#ff6b6b) untuk Adzan</li>
+                    <li>✅ Warna peringatan kuning (#feca57) untuk Imsak</li>
+                    <li>✅ Logo Indramayu Club dengan gradien</li>
+                    <li>✅ Integrasi real-time API Aladhan untuk jadwal sholat</li>
+                    <li>✅ Email & WhatsApp tersembunyi (Obfuscated Base64)</li>
+                    <li>✅ Responsive design untuk mobile & desktop</li>
+                    <li>✅ Update jadwal setiap 1 jam otomatis</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>🎨 Design Elements</h3>
+                <h4>Header & Logo</h4>
+                <p>Gradient background hijau (#1a472a ke #2d5f45) dengan logo circular gradient (merah ke kuning). Text: "INDRAMAYU CLUB" dengan shadow effect.</p>
+
+                <h4>Scrolling Banner</h4>
+                <p>Text berulang berjalan infinite dengan kecepatan 20 detik per cycle. Content: "INDRAMAYU CLUB - Komunitas Terpercaya | Jadwal Adzan & Imsak Selalu Update | Bergabunglah Bersama Kami"</p>
+
+                <h4>Time Display</h4>
+                <p>Grid 6 kolom untuk: Fajr (Subuh), Dhuhr (Dzuhur), Asr (Ashar), Maghrib (Magrib), Isha (Isya), Imsak. Setiap box memiliki warna gradien unik.</p>
+            </div>
+
+            <div class="drive-box">
+                <h4>📂 Google Drive untuk Banner Assets</h4>
+                <button class="drive-btn google" onclick="accessGoogleDrive('kreator')">🎨 Kreator Digital Folder</button>
+                <button class="drive-btn" onclick="showPage('banner')">🔄 Refresh</button>
+            </div>
+
+            <div class="section">
+                <h3>💻 Kode Implementasi</h3>
+                <h4>API Call Aladhan:</h4>
+                <div class="code-block">
+fetch('https://api.aladhan.com/v1/timingsByCity?city=Indramayu&country=Indonesia&method=2')
+  .then(response => response.json())
+  .then(data => displayPrayerTimes(data.data));
+                </div>
+
+                <h4>Email Obfuscation (Base64):</h4>
+                <div class="code-block">
+const encodedEmail = 'aW5kcmFtYXl1Y2x1Ym1ha3JpZmF0QGdtYWlsLmNvbQ==';
+const decodedEmail = atob(encodedEmail); // indramayuclubmakrifat@gmail.com
+                </div>
+
+                <h4>WhatsApp Obfuscation (Base64):</h4>
+                <div class="code-block">
+const encodedPhone = 'MDgxMzg2NTE3MzUy';
+const decodedPhone = atob(encodedPhone); // 081386517352
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 4: API JADWAL SHOLAT -->
+        <div id="api" class="page">
+            <div class="page-header">
+                <h2>🔌 API Jadwal Sholat Internasional</h2>
+                <p>Dokumentasi lengkap API yang tersedia dan implementasinya</p>
+            </div>
+
+            <div class="alert alert-info">
+                ℹ️ API Aladhan dipilih sebagai solusi utama karena akurat, gratis, dan support berbagai negara/kota
+            </div>
+
+            <div class="section">
+                <h3>🌐 Daftar API Jadwal Sholat</h3>
+
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        ⭐ Aladhan API (PILIHAN UTAMA) <span>▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <strong>URL:</strong> https://aladhan.com/prayer-times-api<br>
+                        <strong>Fitur:</strong>
+                        <ul style="margin: 10px 0 10px 20px;">
+                            <li>✅ Gratis tanpa API key</li>
+                            <li>✅ Support hampir semua negara & kota</li>
+                            <li>✅ Akurat dengan berbagai metode kalkulasi</li>
+                            <li>✅ Response JSON lengkap dengan tanggal Hijriah</li>
+                        </ul>
+                        <strong>Endpoint untuk Indramayu:</strong>
+                        <div class="code-block">
+https://api.aladhan.com/v1/timingsByCity?city=Indramayu&country=Indonesia&method=2
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        🔗 Muslim Salat API <span>▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <strong>URL:</strong> https://muslimsalat.com<br>
+                        <strong>Fitur:</strong> Gratis dengan limitasi, ribuan kota, format JSON sederhana<br>
+                        <strong>Endpoint:</strong> http://muslimsalat.com/indramayu.json
+                    </div>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        🔗 Prayer Times API <span>▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <strong>URL:</strong> https://prayertimes.api.dev<br>
+                        <strong>Fitur:</strong> Gratis, support koordinat, kalender harian/bulanan<br>
+                        <strong>Endpoint:</strong> https://prayertimes.api.dev/api/v1/cities/indramayu
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>📋 Response Sample API Aladhan (Indramayu)</h3>
+                <div class="code-block">
+{
+  "code": 200,
+  "status": "OK",
+  "data": {
+    "timings": {
+      "Fajr": "04:42",
+      "Sunrise": "05:53",
+      "Dhuhr": "12:01",
+      "Asr": "15:22",
+      "Sunset": "18:08",
+      "Maghrib": "18:08",
+      "Isha": "19:17",
+      "Imsak": "04:32"
+    },
+    "date": {
+      "readable": "08 Mar 2026",
+      "hijri": {
+        "month": {"en": "Ramadan"}
       }
-    } catch (err) {
-      console.log("Gagal memuat data dari API, dialihkan ke mode lokal.");
+    },
+    "meta": {
+      "latitude": -6.3483,
+      "longitude": 108.3253,
+      "timezone": "Asia/Jakarta"
     }
   }
+}
+                </div>
+            </div>
 
-  // KIRIM DATA KE BACKEND GOOGLE SHEETS
-  function kirimPesan() {
-    const namaEl  = document.getElementById('nama');
-    const emailEl = document.getElementById('email');
-    const telpEl  = document.getElementById('nomor_telepon');
-    const pesanEl = document.getElementById('pesan');
+            <div class="drive-box">
+                <h4>📂 Google Drive untuk API Documentation</h4>
+                <button class="drive-btn google" onclick="accessGoogleDrive('admin')">📖 Admin Documentation</button>
+            </div>
+        </div>
 
-    const nama    = namaEl.value.trim()  || 'Anonim';
-    const email   = emailEl.value.trim() || '-';
-    const telp    = telpEl.value.trim()  || '-';
-    const pesan   = pesanEl.value.trim();
+        <!-- PAGE 5: INDEX.HTML INTEGRASI -->
+        <div id="index" class="page">
+            <div class="page-header">
+                <h2>🌐 Index.html - Website Terintegrasi 8 Halaman</h2>
+                <p>Dokumentasi lengkap struktur dan fitur index.html dengan Google Drive integration</p>
+            </div>
 
-    if (!pesan) {
-      pesanEl.style.borderColor = '#f87171';
-      setTimeout(() => pesanEl.style.borderColor = '', 800);
-      return;
-    }
+            <div class="alert alert-success">
+                ✅ File: index.html - Website utama dengan 8 halaman dalam 1 file
+            </div>
 
-    // Tampilkan di UI secara real-time
-    tambahPesan(nama, pesan);
-    
-    // Susun Payload Lengkap sesuai kebutuhan Backend
-    const payload = {
-      nama: nama,
-      email: email,
-      nomor_telepon: telp,
-      waktu: waktuSekarang(),
-      status: "Aktif",
-      ip: "Client-Web",
-      timestamp: new Date().toISOString(),
-      pesan: pesan
-    };
+            <div class="section">
+                <h3>📍 8 Halaman Utama</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Halaman</th>
+                            <th>Deskripsi</th>
+                            <th>Google Drive Access</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>👑 Admin Privat</td>
+                            <td>Ruangan privat admin dengan management tools dan access control</td>
+                            <td>✅ ADMINISTRASI</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>🎮 Game PS1 & Arisan</td>
+                            <td>Menampilkan game PS1 dengan prize pool dan pendaftaran arisan</td>
+                            <td>✅ GAME_ARISAN<br>✅ BANK_GAME</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>🏪 Pasar Indramayu</td>
+                            <td>Gallery produk lokal dengan iklan dan rating komunitas</td>
+                            <td>✅ INDRAMAYU_CLUB</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>🤖 AI Assistant</td>
+                            <td>Chat bot AI untuk bantuan dan informasi Indramayu Club</td>
+                            <td>✅ KOMUNIKASI</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>💬 Forum Diskusi</td>
+                            <td>Forum diskusi member dengan thread posting dan real-time update</td>
+                            <td>✅ DISKUSI</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>🔧 Tools Warehouse</td>
+                            <td>Gudang tools utility untuk keperluan Indramayu Club</td>
+                            <td>✅ KREATOR_DIGITAL</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>💾 Backup Storage</td>
+                            <td>Manajemen backup multi-cloud dengan progress monitoring</td>
+                            <td>✅ BACKUP</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>🌐 Documentation Index</td>
+                            <td>Dokumentasi lengkap semua fitur dan panduan pengguna</td>
+                            <td>✅ ADMINISTRASI</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-    // Bersihkan kotak input pesan
-    pesanEl.value = '';
-    pesanEl.style.height = 'auto';
+            <div class="section">
+                <h3>🔗 Google Drive Integration di Setiap Halaman</h3>
+                <h4>Implementasi Metode 1: Native Button</h4>
+                <div class="code-block">
+&lt;div class="drive-box"&gt;
+  &lt;h4&gt;📂 Google Drive untuk [Halaman Name]&lt;/h4&gt;
+  &lt;button class="drive-btn google" 
+          onclick="accessGoogleDrive('[folder-id]')"&gt;
+    📂 Buka Google Drive
+  &lt;/button&gt;
+&lt;/div&gt;
+                </div>
 
-    // Eksekusi pengiriman ke Google Apps Script Engine
-    if (typeof google !== 'undefined' && google.script) {
-      google.script.run
-        .withSuccessHandler(function(msg) {
-          tambahPesan('🖥️ Server', msg || 'Pesan tersimpan ✓', null, true);
-        })
-        .withFailureHandler(function(err) {
-          tambahPesan('⚠️ Sistem', 'Gagal simpan: ' + err.message, null, true);
-        })
-        .prosesDiskusi(payload);
-    } else {
-      // Cadangan menggunakan fetch jika dipanggil di luar ekosistem iframe ScriptApp
-      fetch(API_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      }).then(() => {
-        tambahPesan('🖥️ Web Sync', 'Pesan diteruskan ke sistem cloud ✓', null, true);
-      }).catch(err => {
-        tambahPesan('⚠️ Sistem', 'Gagal sinkronisasi luar: ' + err.message, null, true);
-      });
-    }
-  }
+                <h4>Implementasi Metode 2: Multiple Channel Buttons</h4>
+                <div class="code-block">
+&lt;div class="drive-box"&gt;
+  &lt;button class="drive-btn google"&gt;📂 Google Drive&lt;/button&gt;
+  &lt;button class="drive-btn whatsapp"&gt;💬 WhatsApp&lt;/button&gt;
+  &lt;button class="drive-btn facebook"&gt;👍 Facebook&lt;/button&gt;
+  &lt;button class="drive-btn youtube"&gt;▶️ YouTube&lt;/button&gt;
+  &lt;button class="drive-btn instagram"&gt;📷 Instagram&lt;/button&gt;
+  &lt;button class="drive-btn tiktok"&gt;🎵 TikTok&lt;/button&gt;
+&lt;/div&gt;
+                </div>
 
-  // Jalankan pemuatan otomatis saat web dimuat
-  window.addEventListener('DOMContentLoaded', muatKomentar);
-</script>
+                <h4>Mapping Halaman ↔ Google Drive:</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Halaman</th>
+                            <th>Primary Drive</th>
+                            <th>Folder ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Admin Privat</td>
+                            <td>ADMINISTRASI</td>
+                            <td>1v0Wc-oNUhJYHBIj9sP6KcmOXwNpHkzm_</td>
+                        </tr>
+                        <tr>
+                            <td>Game PS1</td>
+                            <td>GAME_ARISAN</td>
+                            <td>19sQU6y-_PD2Nj9-wRdsICh7LUyxtspia</td>
+                        </tr>
+                        <tr>
+                            <td>Pasar Indramayu</td>
+                            <td>INDRAMAYU_CLUB</td>
+                            <td>1-vfSMe4HLBRw_6xgHQuzL2MaL-QsmYyT</td>
+                        </tr>
+                        <tr>
+                            <td>AI Assistant</td>
+                            <td>KOMUNIKASI</td>
+                            <td>15pynM8x7bca0deCVLjW6BhyqW5lQZ76s</td>
+                        </tr>
+                        <tr>
+                            <td>Forum Diskusi</td>
+                            <td>DISKUSI</td>
+                            <td>19ezgJgH4kn7KV23NMaLsUnJVHl8PMJT_</td>
+                        </tr>
+                        <tr>
+                            <td>Tools Warehouse</td>
+                            <td>KREATOR_DIGITAL</td>
+                            <td>1w4NdVPZVDbdptFT_n3mtL0zxPQ_Uveuz</td>
+                        </tr>
+                        <tr>
+                            <td>Backup Storage</td>
+                            <td>BACKUP</td>
+                            <td>1D2jx-VV-AkPwc6rUtvabthyYc61Lw7Ti</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-<!-- INIT & RUNNING SYSTEM (RADAR EXTERNAL) -->
-<script>
-  try {
-    buildDots();
-    applyWallpaper(0);
-    startWallpaperTimer();
-    buildGallery();
-  } catch(e) {
-    console.log("Inisialisasi visual dilewati.");
-  }
-</script>
+            <div class="drive-box">
+                <h4>🔗 Akses Index.html & Google Drive Integration</h4>
+                <button class="drive-btn google" onclick="accessGoogleDrive('admin')">📂 Admin Dashboard</button>
+                <button class="drive-btn google" onclick="viewAllDrives()">👁️ Lihat Semua Drive</button>
+            </div>
+        </div>
 
+        <!-- PAGE 6: STRUKTUR PROYEK -->
+        <div id="struktur" class="page">
+            <div class="page-header">
+                <h2>📊 Struktur Proyek Lengkap</h2>
+                <p>Organisasi file dan folder dalam repository Indramayu Club</p>
+            </div>
+
+            <div class="section">
+                <h3>📁 Struktur Direktori</h3>
+                <div class="code-block">
+Alwi2021/4lwi2021-IndramayuCLUB/
+│
+├── 📄 README.md (dokumentasi utama)
+├── 📄 index.html (website main - 8 halaman)
+├── 📄 social-media-banner.html (banner statis)
+├── 📄 social-media-banner-with-api.html (banner + API Aladhan)
+├── 📄 google-drive-config.js (konfigurasi 9 akun Drive)
+├── 📄 INDEX-DISKUSI-LENGKAP.html (dokumentasi diskusi)
+│
+├── 📁 assets/
+│   ├── 🖼️ logo-indramayu.png
+│   ├── 🖼️ banner-bg.jpg
+│   └── 🖼️ icons/ (berbagai icon)
+│
+├── 📁 js/
+│   ├── script.js (fungsi utama)
+│   ├── api-handler.js (handling API calls)
+│   └── drive-integration.js (Google Drive API integration)
+│
+├── 📁 css/
+│   ├── styles.css (stylesheet utama)
+│   ├── responsive.css (responsive design)
+│   └── animations.css (animasi dan effects)
+│
+├── 📁 docs/
+│   ├── API-DOCUMENTATION.md
+│   ├── SETUP-GUIDE.md
+│   ├── TROUBLESHOOTING.md
+│   └── CHANGELOG.md
+│
+└── 📁 config/
+    ├── google-drive-config.js
+    └── api-config.js
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>🔄 File Dependencies</h3>
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        📄 index.html depends on: <span>▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        ✅ google-drive-config.js<br>
+                        ✅ css/styles.css<br>
+                        ✅ css/responsive.css<br>
+                        ✅ js/script.js<br>
+                        ✅ js/drive-integration.js
+                    </div>
+                </div>
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        📄 social-media-banner-with-api.html depends on: <span>▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        ✅ Aladhan API (https://api.aladhan.com)<br>
+                        ✅ Inline CSS & JavaScript (standalone)
+                    </div>
+                </div>
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        📄 google-drive-config.js depends on: <span>▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        ✅ Google Drive API<br>
+                        ✅ Service Account atau OAuth Token
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>🚀 Tech Stack</h3>
+                <ul style="margin-left: 20px; color: #666;">
+                    <li><strong>Frontend:</strong> HTML5, CSS3, JavaScript (Vanilla)</li>
+                    <li><strong>Backend Integration:</strong> Google Drive API, Aladhan API</li>
+                    <li><strong>Data Format:</strong> JSON</li>
+                    <li><strong>Security:</strong> Base64 Obfuscation, Password Hashing</li>
+                    <li><strong>Responsive:</strong> Mobile-first design (CSS Grid, Flexbox)</li>
+                    <li><strong>Animations:</strong> CSS3 Transitions & Keyframes</li>
+                    <li><strong>Version Control:</strong> Git / GitHub</li>
+                </ul>
+            </div>
+
+            <div class="drive-box">
+                <h4>📂 Google Drive untuk Dokumentasi</h4>
+                <button class="drive-btn google" onclick="accessGoogleDrive('admin')">📖 View Documentation</button>
+            </div>
+        </div>
+
+        <!-- PAGE 7: KONTRAK & INFO -->
+        <div id="kontakt" class="page">
+            <div class="page-header">
+                <h2>📞 Kontrak & Informasi</h2>
+                <p>Informasi kontak dan detail penting Indramayu Club</p>
+            </div>
+
+            <div class="alert alert-warning">
+                ⚠️ Informasi kontak di bawah tersembunyi untuk keamanan. Klik untuk mengungkap.
+            </div>
+
+            <div class="section">
+                <h3>📱 Channel Komunikasi Resmi</h3>
+                <h4>WhatsApp (081386517352)</h4>
+                <button class="btn-primary" onclick="reveal('WhatsApp: 081386517352')">Tampilkan Nomor</button>
+                <p style="margin-top: 10px; color: #666;">Hubungi admin Indramayu Club untuk pertanyaan dan support 24/7</p>
+
+                <h4 style="margin-top: 20px;">Email (indramayuclubmakrifat@gmail.com)</h4>
+                <button class="btn-primary" onclick="reveal('Email: indramayuclubmakrifat@gmail.com')">Tampilkan Email</button>
+                <p style="margin-top: 10px; color: #666;">Untuk correspondence resmi dan document sharing</p>
+
+                <h4 style="margin-top: 20px;">Social Media</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Platform</th>
+                            <th>Handle</th>
+                            <th>Akses</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>📘 Facebook</td>
+                            <td>Indramayu Club Official</td>
+                            <td><button class="drive-btn facebook" onclick="reveal('Facebook: Indramayu Club Official')">Buka</button></td>
+                        </tr>
+                        <tr>
+                            <td>📷 Instagram</td>
+                            <td>@indramayuclub</td>
+                            <td><button class="drive-btn instagram" onclick="reveal('Instagram: @indramayuclub')">Buka</button></td>
+                        </tr>
+                        <tr>
+                            <td>▶️ YouTube</td>
+                            <td>Indramayu Club Channel</td>
+                            <td><button class="drive-btn youtube" onclick="reveal('YouTube: Indramayu Club Channel')">Buka</button></td>
+                        </tr>
+                        <tr>
+                            <td>🎵 TikTok</td>
+                            <td>@indramayuclub</td>
+                            <td><button class="drive-btn tiktok" onclick="reveal('TikTok: @indramayuclub')">Buka</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <h3>🏢 Tim Pengelola</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Posisi</th>
+                            <th>Drive Account</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>👑 Admin Utama</td>
+                            <td>ADMINISTRASI</td>
+                            <td>imahazzah51@gmail.com</td>
+                        </tr>
+                        <tr>
+                            <td>💬 Moderator Diskusi</td>
+                            <td>DISKUSI</td>
+                            <td>dkohar011@gmail.com</td>
+                        </tr>
+                        <tr>
+                            <td>🎮 Game Master</td>
+                            <td>GAME_ARISAN</td>
+                            <td>motherainur8@gmail.com</td>
+                        </tr>
+                        <tr>
+                            <td>🎨 Creative Lead</td>
+                            <td>KREATOR_DIGITAL</td>
+                            <td>kurnadibewok3311@gmail.com</td>
+                        </tr>
+                        <tr>
+                            <td>📢 Komunikasi</td>
+                            <td>KOMUNIKASI</td>
+                            <td>aimininurindramayu@gmail.com</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <h3>📋 FAQ & Support</h3>
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        ❓ Bagaimana cara bergabung dengan Indramayu Club? <span>▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        Silakan hubungi admin melalui WhatsApp (081386517352) atau email untuk form pendaftaran dan verifikasi member.
+                    </div>
+                </div>
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        ❓ Apakah bisa mengikuti multiple game arisan sekaligus? <span>▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        Ya, Anda bisa mengikuti multiple game dengan syarat dan ketentuan yang berlaku. Hubungi Game Master untuk detail.
+                    </div>
+                </div>
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        ❓ Bagaimana cara menjual produk di pasar Indramayu? <span>▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        Daftar menjadi merchant melalui dashboard admin, lengkapi data produk, dan upload foto gallery. Review admin diperlukan sebelum publish.
+                    </div>
+                </div>
+            </div>
+
+            <div class="drive-box">
+                <h4>📂 Akses Google Drive Support</h4>
+                <button class="drive-btn google" onclick="accessGoogleDrive('admin')">📞 Support & Help</button>
+                <button class="drive-btn whatsapp" onclick="reveal('WhatsApp: 081386517352')">💬 Chat WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ FOOTER ============ -->
+    <footer>
+        <p>© 2026 INDRAMAYU CLUB - Komunitas Terpercaya</p>
+        <p style="font-size: 12px; margin-top: 10px;">
+            Powered by Alwi2021 | 
+            <span onclick="reveal('WhatsApp: 081386517352')" style="cursor: pointer; color: #4af;">📱 WhatsApp</span> | 
+            <span onclick="reveal('Email: indramayuclubmakrifat@gmail.com')" style="cursor: pointer; color: #4af;">📧 Email</span>
+        </p>
+        <p style="font-size: 11px; color: #999; margin-top: 5px;">Last Updated: 08 Maret 2026</p>
+    </footer>
+
+    <script>
+        // ============ PAGE NAVIGATION ============
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            document.getElementById(pageId).classList.add('active');
+            event.target.classList.add('active');
+
+            window.scrollTo(0, 0);
+        }
+
+        // ============ ACCORDION ============
+        function toggleAccordion(header) {
+            header.classList.toggle('active');
+            const content = header.nextElementSibling;
+            content.classList.toggle('active');
+        }
+
+        // ============ GOOGLE DRIVE ACCESS ============
+        function accessGoogleDrive(folderType = 'admin') {
+            const driveLinks = {
+                'admin': 'https://drive.google.com/drive/folders/1v0Wc-oNUhJYHBIj9sP6KcmOXwNpHkzm_',
+                'diskusi': 'https://drive.google.com/drive/folders/19ezgJgH4kn7KV23NMaLsUnJVHl8PMJT_',
+                'game': 'https://drive.google.com/drive/folders/19sQU6y-_PD2Nj9-wRdsICh7LUyxtspia',
+                'kreator': 'https://drive.google.com/drive/folders/1w4NdVPZVDbdptFT_n3mtL0zxPQ_Uveuz',
+                'komunikasi': 'https://drive.google.com/drive/folders/15pynM8x7bca0deCVLjW6BhyqW5lQZ76s',
+                'backup': 'https://drive.google.com/drive/folders/1D2jx-VV-AkPwc6rUtvabthyYc61Lw7Ti'
+            };
+
+            const link = driveLinks[folderType] || driveLinks['admin'];
+            window.open(link, '_blank');
+        }
+
+        function viewAllDrives() {
+            alert('Membuka semua 9 Google Drive accounts...\n\n1. INDRAMAYU_CLUB\n2. DISKUSI\n3. ADMINISTRASI\n4. KREATOR_DIGITAL\n5. GAME_ARISAN\n6. BANK_GAME\n7. GAME_INDRAMAYU\n8. KOMUNIKASI\n9. BACKUP');
+        }
+
+        // ============ REVEAL INFO ============
+        function reveal(info) {
+            alert(info);
+        }
+
+        // ============ SECURITY ============
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+
+        console.clear();
+        Object.defineProperty(window, 'console', {
+            value: console,
+            writable: false
+        });
+    </script>
 </body>
 </html>
-
-
