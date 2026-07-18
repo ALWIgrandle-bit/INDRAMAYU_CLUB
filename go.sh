@@ -3,7 +3,8 @@ echo "👑 INDRAMAYU CLUB CORE - Memulai Sinkronisasi GitHub... 🔥"
 
 # 1. Konfigurasi Remote URL dengan Token Otomatis
 git remote remove origin 2>/dev/null
-git remote add origin https://ALWIgrandle-bit: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@github.com/ALWIgrandle-bit/INDRAMAYU_CLUB.git
+git remote set-url origin https://<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>@github.com/ALWIgrandle-bit/INDRAMAYU_CLUB.git
+
 
 # 2. Kemas dan amankan perubahan lokal TERLEBIH DAHULU
 echo "📤 Mengemas seluruh file core..."
