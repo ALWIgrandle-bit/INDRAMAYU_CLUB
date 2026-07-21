@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alwi Creative Lab — AI HTML Builder</title>
+<style>
+  :root{
+    --bg:#1e1e1e;
+    --panel:#252526;
+    --panel2:#181818;
+    --border:#333;
+    --gold:#facc15;
+    --text:#d4d4d4;
+    --muted:#8a8a8a;
+    --code:#569cd6;
+  }
+  *{box-sizing:border-box;}
+  html,body{ height:100%; margin:0; }
+  body{
+    background:var(--panel2);
+    color:var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    display:flex; flex-direction:column;
+  }
+  header{
+    padding:10px 14px; border-bottom:2px solid var(--gold);
+    background:var(--panel); display:flex; align-items:center; gap:8px;
+  }
+  header .title{ font-weight:bold; font-size:14px; color:var(--gold); }
+  header .subtitle{ font-size:10px; color:var(--muted); }
+
+  .apikey-bar{
+    background:var(--panel); border-bottom:1px solid var(--border); padding:8px 12px;
+    display:flex; gap:8px; align-items:center; font-size:11px; flex-wrap:wrap;
+  }
+  .apikey-bar span.label{ color:var(--muted); }
+  .apikey-bar select{
+    background:#333; color:var(--text); border:1px solid var(--border); border-radius:6px;
+    padding:5px 8px; font-size:11px;
+  }
+  .apikey-bar input[type=text]{
+    flex:1; min-width:120px; background:#333; color:var(--text); border:1px solid var(--border);
+    border-radius:6px; padding:5px 8px; font-size:11px;
+  }
+  .apikey-bar button{
+    background:#444; color:var(--text); border:1px solid var(--border); border-radius:6px;
+    padding:5px 10px; font-size:11px; cursor:pointer;
+  }
+  .apikey-bar .saved-tag{ color:#7fbf7f; }
+
+  .style-bar{
+    background:var(--panel); border-bottom:1px solid var(--border); padding:8px 12px;
+    display:flex; gap:8px; align-items:center; font-size:11px; flex-wrap:wrap;
+  }
+  .style-bar span.label{ color:var(--muted); }
+  .style-bar button{
+    background:#3a2c0a; color:#f0d070; border:1px solid var(--gold); border-radius:6px;
+    padding:5px 10px; font-size:11px; cursor:pointer;
+  }
+  .style-bar .swatches{ display:flex; gap:4px; align-items:center; }
+  .style-bar .sw{ width:14px; height:14px; border-radius:3px; border:1px solid #000; }
+  .style-bar .clear-style{ background:#442222; color:#f0a0a0; border-color:#663333; }
+
+  main{ flex:1; display:flex; flex-direction:column; min-height:0; }
+
+  .tabs{ display:flex; background:var(--panel2); border-bottom:1px solid var(--border); }
+  .tabs button{
+    flex:1; padding:9px; background:transparent; border:none; color:var(--muted);
+    font-size:11px; text-transform:uppercase; letter-spacing:.05em; font-weight:bold; cursor:pointer;
+    border-bottom:2px solid transparent;
+  }
+  .tabs button.active{ color:var(--gold); border-bottom-color:var(--gold); }
+
+  .panes{ flex:1; position:relative; min-height:0; }
+  .pane{ position:absolute; inset:0; display:none; flex-direction:column; }
+  .pane.active{ display:flex; }
+
+  #codeArea{
+    flex:1; background:var(--panel2); color:var(--code); font-family:"Courier New", monospace;
+    font-size:12px; padding:14px; border:none; outline:none; resize:none; line-height:1.6;
+  }
+  #previewFrame{ flex:1; width:100%; border:none; background:#fff; }
+
+  .chatlog{ flex:1; overflow-y:auto; padding:12px; display:flex; flex-direction:column; gap:10px; }
+  .chatlog .msg{ display:flex; }
+  .chatlog .msg.user{ justify-content:flex-end; }
+  .chatlog .bubble{
+    max-width:85%; padding:8px 10px; border-radius:10px; font-size:12px; line-height:1.5; white-space:pre-wrap;
+  }
+  .chatlog .msg.user .bubble{ background:var(--gold); color:#1e1e1e; }
+  .chatlog .msg.assistant .bubble{ background:var(--panel); color:var(--text); border:1px solid var(--border); }
+  .chatlog .msg.assistant .bubble .fname{ color:var(--gold); font-size:10px; display:block; margin-bottom:4px; }
+  .chatlog .msg.system .bubble{ background:transparent; color:var(--muted); border:1px dashed var(--border); font-style:italic; }
+
+  footer.toolbar{
+    border-top:2px solid var(--gold); background:var(--panel); padding:10px;
+    display:flex; gap:8px; align-items:center;
+  }
+  footer.toolbar input[type=text]{
+    flex:1; background:#333; color:#fff; border:1px solid var(--border); border-radius:8px;
+    padding:10px 12px; font-size:13px; outline:none;
+  }
+  footer.toolbar input[type=text]:focus{ border-color:var(--gold); }
+  footer.toolbar button{
+    background:var(--gold); color:#1e1e1e; border:none; border-radius:8px;
+    padding:10px 16px; font-weight:bold; font-size:13px; cursor:pointer; white-space:nowrap;
+  }
+  footer.toolbar button:disabled{ opacity:0.5; cursor:not-allowed; }
+  footer.toolbar button.secondary{ background:#444; color:var(--text); }
+
+  .action-row{
+    display:flex; gap:8px; padding:8px 12px; background:var(--panel); border-top:1px solid var(--border);
+    font-size:11px;
+  }
+  .action-row button{
+    background:#333; color:var(--text); border:1px solid var(--border); border-radius:6px;
+    padding:6px 10px; cursor:pointer; font-size:11px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="title">⚡ Alwi Creative Lab</div>
+    <div class="subtitle">AI HTML Builder — ketik, Alwi bikin/edit kodenya</div>
+  </div>
+</header>
+
+<div class="apikey-bar">
+  <span class="label">Mesin AI:</span>
+  <select id="engineSelect">
+    <option value="pollinations">Pollinations (gratis, tanpa key)</option>
+    <option value="gemini">Gemini (butuh API key)</option>
+  </select>
+  <input type="text" id="apiKeyInput" placeholder="Gemini API Key (kalau pilih Gemini)" style="display:none;">
+  <button id="saveKeyBtn" style="display:none;">Simpan</button>
+  <span class="saved-tag" id="keyStatus"></span>
+</div>
+
+<div class="style-bar">
+  <span class="label">Referensi Style:</span>
+  <button id="uploadStyleBtn">📁 Baca dari HTML</button>
+  <input type="file" id="styleFileInput" accept=".html,.htm" multiple style="display:none;">
+  <span id="styleStatus" class="label">belum ada — pakai palet default Nur3</span>
+  <div class="swatches" id="styleSwatches"></div>
+  <button id="clearStyleBtn" class="clear-style" style="display:none;">✕ Hapus</button>
+</div>
+
+<main>
+  <div class="tabs">
+    <button data-tab="chat" class="active">💬 Chat</button>
+    <button data-tab="code">📝 Kode</button>
+    <button data-tab="preview">👁 Preview</button>
+  </div>
+
+  <div class="panes">
+    <div class="pane active" data-pane="chat">
+      <div id="chatLog" class="chatlog"></div>
+    </div>
+    <div class="pane" data-pane="code">
+      <textarea id="codeArea" spellcheck="false"></textarea>
+    </div>
+    <div class="pane" data-pane="preview">
+      <iframe id="previewFrame" title="AI Preview"></iframe>
+    </div>
+  </div>
+
+  <div class="action-row">
+    <button id="copyBtn">📋 Copy HTML</button>
+    <button id="downloadBtn">⬇️ Download .html</button>
+    <button id="resetBtn">🔄 Reset Project</button>
+  </div>
+
+  <footer class="toolbar">
+    <input type="text" id="promptInput" placeholder="Contoh: buat landing page event keagamaan yang modern...">
+    <button id="sendBtn">✨ Bikin</button>
+  </footer>
+</main>
+
+<script>
+(function(){
+  const STARTER_CODE = "<h1 style=\"font-family:sans-serif;text-align:center;margin-top:40px;\">Selamat Datang di Alwi Creative Lab!</h1>\n<p style=\"font-family:sans-serif;text-align:center;color:#555;\">Ketik perintah di bawah, lalu tekan <b>✨ Bikin</b>.</p>";
+
+  let currentCode = STARTER_CODE;
+  let chatHistory = []; // {role:'user'|'assistant'|'system', text}
+
+  // ---------- ENGINE / API KEY ----------
+  const KEY_STORAGE = 'indramayu_gemini_api_key';
+  const engineSelect = document.getElementById('engineSelect');
+  const apiKeyInput = document.getElementById('apiKeyInput');
+  const saveKeyBtn = document.getElementById('saveKeyBtn');
+  const keyStatus = document.getElementById('keyStatus');
+
+  function getApiKey(){ return localStorage.getItem(KEY_STORAGE) || ''; }
+  function refreshKeyStatus(){
+    const k = getApiKey();
+    keyStatus.textContent = (engineSelect.value === 'gemini' && k) ? '✓ Key tersimpan' : '';
+  }
+  engineSelect.addEventListener('change', () => {
+    const isGemini = engineSelect.value === 'gemini';
+    apiKeyInput.style.display = isGemini ? 'inline-block' : 'none';
+    saveKeyBtn.style.display = isGemini ? 'inline-block' : 'none';
+    refreshKeyStatus();
+  });
+  saveKeyBtn.addEventListener('click', () => {
+    const v = apiKeyInput.value.trim();
+    if (v){ localStorage.setItem(KEY_STORAGE, v); apiKeyInput.value=''; refreshKeyStatus(); }
+  });
+  refreshKeyStatus();
+
+  // ---------- STYLE PROFILE (baca syntax & style dari HTML lain) ----------
+  // Palet default = pola warna yang sudah konsisten dipakai di modul-modul
+  // Nur (index.html, nur5_menu_utama, nur10_kamus_alwi, Alwikamus2, dst).
+  const DEFAULT_STYLE_PROFILE = {
+    label: 'Palet default Nur3 (batik emas-hijau)',
+    colors: ['#0d0d0d', '#1a1408', '#1e1608', '#3a2c0a', '#c9a84c', '#f0d070', '#e8d5a0', '#1a6b3a'],
+    fonts: ["'Cinzel', serif (judul)", "'Noto Sans', sans-serif (isi)"],
+    notes: 'Kartu gelap dengan border tipis warna emas-tua, aksen emas #c9a84c untuk judul/tombol, hijau tua untuk elemen sukses/aktif. Nuansa batik, spiritual, elegan — bukan flat design generik.'
+  };
+  const STYLE_STORAGE = 'alwi_style_profile';
+
+  function loadStyleProfile(){
+    try {
+      const raw = localStorage.getItem(STYLE_STORAGE);
+      return raw ? JSON.parse(raw) : null;
+    } catch(e){ return null; }
+  }
+  function saveStyleProfile(profile){
+    localStorage.setItem(STYLE_STORAGE, JSON.stringify(profile));
+  }
+  function getActiveStyleProfile(){
+    return loadStyleProfile() || DEFAULT_STYLE_PROFILE;
+  }
+
+  // Ambil variabel warna (:root{--x:#hex}) dan font-family dari teks HTML
+  function extractStyleFromHtml(htmlText, fileName){
+    const colors = new Set();
+    const fonts = new Set();
+
+    // dari :root { --nama: #hex; ... }
+    const rootMatches = htmlText.match(/:root\s*\{[^}]*\}/gi) || [];
+    rootMatches.forEach(block => {
+      const hexMatches = block.match(/#[0-9a-fA-F]{3,6}/g) || [];
+      hexMatches.forEach(h => colors.add(h.toLowerCase()));
+    });
+    // fallback: semua warna hex kalau tidak ada :root
+    if (colors.size === 0){
+      const anyHex = htmlText.match(/#[0-9a-fA-F]{3,6}/g) || [];
+      anyHex.slice(0, 12).forEach(h => colors.add(h.toLowerCase()));
+    }
+    // font-family
+    const fontMatches = htmlText.match(/font-family\s*:\s*[^;"'}\n]+/gi) || [];
+    fontMatches.forEach(f => {
+      const clean = f.replace(/font-family\s*:\s*/i, '').trim();
+      if (clean) fonts.add(clean);
+    });
+
+    return {
+      fileName,
+      colors: Array.from(colors).slice(0, 10),
+      fonts: Array.from(fonts).slice(0, 5)
+    };
+  }
+
+  function mergeProfiles(results){
+    const allColors = new Set();
+    const allFonts = new Set();
+    const names = [];
+    results.forEach(r => {
+      names.push(r.fileName);
+      r.colors.forEach(c => allColors.add(c));
+      r.fonts.forEach(f => allFonts.add(f));
+    });
+    return {
+      label: 'Dibaca dari: ' + names.join(', '),
+      colors: Array.from(allColors).slice(0, 12),
+      fonts: Array.from(allFonts).slice(0, 6),
+      notes: 'Gunakan warna dan font persis seperti daftar ini agar tampilan konsisten dengan halaman yang sudah ada. Jangan pakai warna/font lain kecuali diminta.'
+    };
+  }
+
+  const uploadStyleBtn = document.getElementById('uploadStyleBtn');
+  const styleFileInput = document.getElementById('styleFileInput');
+  const styleStatus = document.getElementById('styleStatus');
+  const styleSwatches = document.getElementById('styleSwatches');
+  const clearStyleBtn = document.getElementById('clearStyleBtn');
+
+  function renderStyleBar(){
+    const profile = getActiveStyleProfile();
+    styleStatus.textContent = profile.label;
+    styleSwatches.innerHTML = '';
+    profile.colors.forEach(c => {
+      const sw = document.createElement('div');
+      sw.className = 'sw';
+      sw.style.background = c;
+      sw.title = c;
+      styleSwatches.appendChild(sw);
+    });
+    clearStyleBtn.style.display = loadStyleProfile() ? 'inline-block' : 'none';
+  }
+  renderStyleBar();
+
+  uploadStyleBtn.addEventListener('click', () => styleFileInput.click());
+  styleFileInput.addEventListener('change', async () => {
+    const files = Array.from(styleFileInput.files || []);
+    if (!files.length) return;
+    uploadStyleBtn.disabled = true;
+    uploadStyleBtn.textContent = '⏳ Membaca...';
+    try {
+      const results = [];
+      for (const file of files){
+        const text = await file.text();
+        results.push(extractStyleFromHtml(text, file.name));
+      }
+      const merged = mergeProfiles(results);
+      saveStyleProfile(merged);
+      renderStyleBar();
+      chatHistory.push({ role: 'system', text: '📁 Alwi sudah membaca style dari: ' + files.map(f=>f.name).join(', ') + '. Semua kode baru akan mengikuti palet & font ini.' });
+      renderChat();
+    } catch(e){
+      alert('Gagal membaca file: ' + e.message);
+    } finally {
+      uploadStyleBtn.disabled = false;
+      uploadStyleBtn.textContent = '📁 Baca dari HTML';
+      styleFileInput.value = '';
+    }
+  });
+  clearStyleBtn.addEventListener('click', () => {
+    localStorage.removeItem(STYLE_STORAGE);
+    renderStyleBar();
+    chatHistory.push({ role: 'system', text: '🔄 Referensi style dihapus. Alwi kembali pakai palet default Nur3.' });
+    renderChat();
+  });
+
+  function buildStyleInstruction(){
+    const p = getActiveStyleProfile();
+    return "PANDUAN GAYA (wajib diikuti untuk konsistensi dengan web Indramayu Club Makrifat):\n" +
+      "- Palet warna: " + p.colors.join(', ') + "\n" +
+      "- Font: " + p.fonts.join(', ') + "\n" +
+      "- Catatan: " + p.notes + "\n\n";
+  }
+
+  // ---------- TABS ----------
+  const tabButtons = document.querySelectorAll('.tabs button');
+  const panes = document.querySelectorAll('.pane');
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabButtons.forEach(b => b.classList.remove('active'));
+      panes.forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelector('.pane[data-pane="' + btn.dataset.tab + '"]').classList.add('active');
+      if (btn.dataset.tab === 'code') codeArea.value = currentCode;
+      if (btn.dataset.tab === 'preview') updatePreview();
+    });
+  });
+
+  // ---------- DOM ----------
+  const chatLogEl = document.getElementById('chatLog');
+  const codeArea = document.getElementById('codeArea');
+  const previewFrame = document.getElementById('previewFrame');
+  const promptInput = document.getElementById('promptInput');
+  const sendBtn = document.getElementById('sendBtn');
+  const copyBtn = document.getElementById('copyBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const resetBtn = document.getElementById('resetBtn');
+
+  codeArea.value = currentCode;
+  codeArea.addEventListener('input', () => {
+    currentCode = codeArea.value;
+  });
+
+  function updatePreview(){
+    previewFrame.srcdoc = currentCode;
+  }
+  updatePreview();
+
+  function renderChat(){
+    chatLogEl.innerHTML = '';
+    if (!chatHistory.length){
+      const hint = document.createElement('div');
+      hint.style.cssText = 'color:#8a8a8a;font-size:12px;text-align:center;margin-top:20px;';
+      hint.textContent = 'Belum ada percakapan. Ketik perintah di bawah untuk mulai membangun.';
+      chatLogEl.appendChild(hint);
+      return;
+    }
+    chatHistory.forEach(m => {
+      const row = document.createElement('div');
+      row.className = 'msg ' + m.role;
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      if (m.role === 'assistant'){
+        const fname = document.createElement('span');
+        fname.className = 'fname';
+        fname.textContent = '⚡ Alwi';
+        bubble.appendChild(fname);
+      }
+      const textNode = document.createElement('span');
+      textNode.textContent = m.text;
+      bubble.appendChild(textNode);
+      row.appendChild(bubble);
+      chatLogEl.appendChild(row);
+    });
+    chatLogEl.scrollTop = chatLogEl.scrollHeight;
+  }
+  renderChat();
+
+  function cleanCode(raw){
+    return raw.replace(/```html/gi, '').replace(/```css/gi, '').replace(/```javascript/gi,'').replace(/```/g, '').trim();
+  }
+
+  async function generateWithPollinations(fullPrompt){
+    const url = 'https://text.pollinations.ai/' + encodeURIComponent(fullPrompt);
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Gagal menghubungi Pollinations AI.');
+    return await res.text();
+  }
+
+  async function generateWithGemini(fullPrompt){
+    const key = getApiKey();
+    if (!key) throw new Error('Gemini API Key belum diisi.');
+    const MODEL = 'gemini-2.5-flash';
+    const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + MODEL + ':generateContent?key=' + encodeURIComponent(key);
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ role: 'user', parts: [{ text: fullPrompt }] }],
+        generationConfig: { temperature: 0.7, maxOutputTokens: 4096 }
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.error?.message || 'Gagal menghubungi Gemini API.');
+    return data?.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('') || '';
+  }
+
+  async function handleSend(){
+    const userPrompt = promptInput.value.trim();
+    if (!userPrompt) return;
+    promptInput.value = '';
+    chatHistory.push({ role: 'user', text: userPrompt });
+    renderChat();
+
+    sendBtn.disabled = true;
+    sendBtn.textContent = '⏳ ...';
+
+    const isFirstBuild = currentCode.trim() === STARTER_CODE.trim() || currentCode.trim() === '';
+    const styleInstruction = buildStyleInstruction();
+    const systemPrompt = isFirstBuild
+      ? styleInstruction + "Tugas Anda: jika permintaan user adalah untuk MEMBUAT halaman/komponen HTML, buatkan HTML murni lengkap dengan tag <style> CSS di dalamnya (boleh juga <script> jika perlu interaktivitas) — jangan beri teks penjelasan apapun, jangan gunakan blok markdown ```html, langsung berikan kodenya saja, dan kode harus diawali tag HTML. Tapi jika permintaan user hanyalah PERTANYAAN atau OBROLAN BIASA (bukan minta dibuatkan/direvisi halaman), jawab singkat dengan teks biasa saja, JANGAN membungkusnya sebagai kode HTML. Ini yang saya minta: "
+      : styleInstruction + "Ini adalah kode HTML yang sudah ada:\n\n" + currentCode + "\n\nJika permintaan user di bawah ini adalah untuk MEREVISI/MENGEDIT kode di atas, kembalikan HTML LENGKAP hasil revisinya (bukan cuma bagian yang berubah) — jangan beri teks penjelasan apapun, jangan gunakan blok markdown ```html, langsung berikan kodenya saja, dan kode harus diawali tag HTML. Tapi jika permintaan user hanyalah PERTANYAAN atau OBROLAN BIASA (misalnya bertanya kenapa sesuatu tidak muncul, atau sekadar menyapa) dan BUKAN permintaan revisi kode, jawab singkat dengan teks biasa saja, JANGAN mengembalikan kode HTML. Permintaan: ";
+
+    const fullPrompt = systemPrompt + userPrompt;
+
+    try {
+      let raw;
+      if (engineSelect.value === 'gemini'){
+        raw = await generateWithGemini(fullPrompt);
+      } else {
+        raw = await generateWithPollinations(fullPrompt);
+      }
+      const clean = cleanCode(raw);
+      if (!clean) throw new Error('AI tidak mengembalikan jawaban.');
+
+      const looksLikeHtml = /^\s*(<!doctype|<html|<head|<body|<div|<section|<main|<style|<h[1-6]|<p[\s>]|<!--)/i.test(clean);
+
+      if (looksLikeHtml){
+        currentCode = clean;
+        codeArea.value = currentCode;
+        previewFrame.srcdoc = '';
+        setTimeout(() => { previewFrame.srcdoc = currentCode; }, 0);
+        chatHistory.push({ role: 'assistant', text: '✅ Kode berhasil dibuat/diperbarui. Cek tab Kode atau Preview.' });
+      } else {
+        chatHistory.push({ role: 'assistant', text: clean });
+      }
+    } catch (err){
+      chatHistory.push({ role: 'assistant', text: '❌ Error: ' + err.message });
+    } finally {
+      renderChat();
+      sendBtn.disabled = false;
+      sendBtn.textContent = '✨ Bikin';
+    }
+  }
+
+  sendBtn.addEventListener('click', handleSend);
+  promptInput.addEventListener('keydown', e => { if (e.key === 'Enter') handleSend(); });
+
+  copyBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(currentCode);
+      copyBtn.textContent = '✅ Tersalin';
+      setTimeout(() => copyBtn.textContent = '📋 Copy HTML', 1500);
+    } catch(e){
+      alert('Gagal copy otomatis. Salin manual dari tab Kode.');
+    }
+  });
+
+  downloadBtn.addEventListener('click', () => {
+    const blob = new Blob([currentCode], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'hasil-ai-builder.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+  resetBtn.addEventListener('click', () => {
+    if (!confirm('Reset project dan hapus riwayat chat?')) return;
+    currentCode = STARTER_CODE;
+    chatHistory = [];
+    codeArea.value = currentCode;
+    updatePreview();
+    renderChat();
+  });
+
+})();
+</script>
+</body>
+</html>
+

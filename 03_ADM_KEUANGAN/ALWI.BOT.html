@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot Tanya Jawab Mandiri - Alwi System V2</title>
+    <style>
+        :root { 
+            --bg-color: #1e1e2e; 
+            --chat-bg: #252538; 
+            --text-color: #cdd6f4; 
+            --user-msg: #89b4fa; 
+            --bot-msg: #a6e3a1; 
+            --accent-color: #f5c2e7;
+        }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            justify-content: center; 
+        }
+        .chat-container { 
+            width: 100%; 
+            max-width: 650px; 
+            background: var(--chat-bg); 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
+            overflow: hidden; 
+            display: flex; 
+            flex-direction: column; 
+            height: 85vh; 
+        }
+        .chat-box { 
+            flex: 1; 
+            padding: 20px; 
+            overflow-y: auto; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+        }
+        .message { 
+            max-width: 85%; 
+            padding: 10px 15px; 
+            border-radius: 8px; 
+            font-size: 14px; 
+            line-height: 1.5; 
+            word-wrap: break-word; 
+        }
+        .user { 
+            align-self: flex-end; 
+            background-color: var(--user-msg); 
+            color: #11111b; 
+            border-bottom-right-radius: 2px; 
+        }
+        .bot { 
+            align-self: flex-start; 
+            background-color: #313244; 
+            color: var(--text-color); 
+            border-left: 4px solid var(--bot-msg); 
+            border-bottom-left-radius: 2px; 
+        }
+        .input-area { 
+            display: flex; 
+            border-top: 1px solid #45475a; 
+            background: #181825; 
+            padding: 12px; 
+        }
+        input { 
+            flex: 1; 
+            background: #313244; 
+            border: none; 
+            padding: 12px; 
+            color: var(--text-color); 
+            border-radius: 6px; 
+            outline: none; 
+        }
+        button { 
+            background: var(--bot-msg); 
+            color: #11111b; 
+            border: none; 
+            padding: 0 22px; 
+            margin-left: 10px; 
+            border-radius: 6px; 
+            font-weight: bold; 
+            cursor: pointer; 
+        }
+        button:hover { opacity: 0.9; }
+        code {
+            background: #11111b;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--accent-color);
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="chat-box" id="chatBox">
+        <div class="message bot">Halo Nur! Saya Bot Sistem HugoNUR3 offline yang sudah diperbarui sesuai direktori kerjamu. Mau akses modul atau cek log apa hari ini?<br><br>Ketik <b>bantuan</b> untuk melihat daftar kata kunci lengkap.</div>
+    </div>
+    <div class="input-area">
+        <input type="text" id="userInput" placeholder="Ketik perintah atau kata kunci di sini..." onkeypress="handleKeyPress(event)">
+        <button onclick="sendMessage()">Kirim</button>
+    </div>
+</div>
+
+<script>
+// DATABASE INTERNAL SINKRON DENGAN DIREKTORI HUGONUR3
+const basisPengetahuan = {
+    "bantuan": "Berikut kata kunci yang bisa kamu gunakan:<br>" +
+               "• <b>admin</b> / <b>keuangan</b> - Akses administrasi keuangan & keuangan pagi.<br>" +
+               "• <b>arisan</b> / <b>undian</b> - Buka sistem arisan kelompok.<br>" +
+               "• <b>kamus</b> - Buka Kamus Alwi.<br>" +
+               "• <b>game</b> / <b>emulator</b> - Emulator game & daftar game mini Nur8.<br>" +
+               "• <b>stream</b> / <b>live</b> - Link streaming status panggung & member live.<br>" +
+               "• <b>server</b> / <b>flask</b> - Info script server Python & file log backend.<br>" +
+               "• <b>excel</b> / <b>data</b> - Database Indramayu Club.",
+               
+    "admin": "Untuk administrasi keuangan utama silakan buka file <code>03_ADM_KEUANGAN.html</code>.<br>Untuk data detail per-modul, akses <code>03_ADM_KEUANGAN/Nur8/index.html</code>.",
+    
+    "keuangan": "Catatan keuangan pagi dapat diakses langsung pada file <code>nur3_keuangan_pagi.html</code>. Untuk sinkronisasi otomatis ke Google Sheets, jalankan script <code>03_ADM_KEUANGAN/sync_to_sheet.py</code>.",
+    
+    "arisan": "Sistem arisan dan undian digital bisa dibuka melalui file <code>Nur5_Arisan.html</code> atau halaman kocok undian di <code>Nur5_undian.html</code>.",
+    
+    "undian": "Sistem arisan dan undian digital bisa dibuka melalui file <code>Nur5_Arisan.html</code> atau halaman kocok undian di <code>Nur5_undian.html</code>.",
+    
+    "kamus": "Fitur kamus Alwi dapat diakses di root melalui <code>Alwikamus2.html</code> atau versi alternatifnya di <code>nur10_kamus_alwi.html</code>.",
+    
+    "game": "Daftar mini-game buatanmu (Tebak Kata, Ular, 2048, Kotak, Jucebox, dll.) ada di dalam folder <code>03_ADM_KEUANGAN/Nur8/</code> (M001 sampai M0010).",
+    
+    "emulator": "Untuk emulator game besar, kamu bisa cek infonya di <code>nur8_emulator.html</code>.",
+    
+    "stream": "Untuk memantau live streaming status panggung atau aktivitas live member, silakan cek file <code>nur7_panggung_status.html</code>, <code>nur7a_streaming.html</code>, atau <code>nur7b_live_member.html</code>.",
+    
+    "live": "Untuk memantau live streaming status panggung atau aktivitas live member, silakan cek file <code>nur7_panggung_status.html</code>, <code>nur7a_streaming.html</code>, atau <code>nur7b_live_member.html</code>.",
+    
+    "server": "Sistem kamu berjalan menggunakan beberapa pengendali backend:<br>• Node.js: <code>server.js</code> & <code>server2.js</code><br>• Python Flask: <code>flask_tambahan.py</code> & <code>perbaiki_flask.py</code><br>• Log Cloudflare: <code>cloudflared2.log</code>",
+    
+    "flask": "Jika terjadi error pada server Flask, kamu bisa memeriksa riwayat error di file log <code>flask.log</code> atau log audit di <code>audit_flask.log</code>.",
+    
+    "excel": "Data member dan klub tersimpan di file Excel utama: <code>Database Indramayu Club.xlsx</code>.",
+    
+    "data": "Data member dan klub tersimpan di file Excel utama: <code>Database Indramayu Club.xlsx</code>."
+};
+
+function sendMessage() {
+    const inputEl = document.getElementById("userInput");
+    const chatBox = document.getElementById("chatBox");
+    const query = inputEl.value.trim().toLowerCase();
+    
+    if (query === "") return;
+
+    // Tampilkan pesan user
+    chatBox.innerHTML += `<div class="message user">${inputEl.value}</div>`;
+    inputEl.value = "";
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    // Respons bot lokal
+    setTimeout(() => {
+        let balasan = "Maaf Nur, saya tidak mengenali kata kunci tersebut di folder ini. Ketik <b>bantuan</b> untuk melihat daftar jalan pintas berkas.";
+        
+        for (let kunci in basisPengetahuan) {
+            if (query.includes(kunci)) {
+                balasan = basisPengetahuan[kunci];
+                break;
+            }
+        }
+        
+        chatBox.innerHTML += `<div class="message bot">${balasan}</div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }, 300);
+}
+
+function handleKeyPress(event) {
+    if (event.key === "Enter") {
+        sendMessage();
+    }
+}
+</script>
+</body>
+</html>
+
